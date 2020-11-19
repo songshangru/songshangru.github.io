@@ -321,7 +321,75 @@
         
           
             <h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><p><strong>要学习IOT逆向，准备入手的思科路由器是MIPS架构，在开始动手前先熟悉一下MIPS相关基础</strong></p>
-<p>参考资料：</p>
+<h4 id="1-特点"><a href="#1-特点" class="headerlink" title="1.特点"></a>1.特点</h4><ul>
+<li>MIPS指令为固定4字节</li>
+<li></li>
+</ul>
+<h4 id="2-寄存器"><a href="#2-寄存器" class="headerlink" title="2.寄存器"></a>2.寄存器</h4><table>
+<thead>
+<tr>
+<th>寄存器编号</th>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$0</td>
+<td>$zero</td>
+<td>总是返回常量0</td>
+</tr>
+<tr>
+<td>$1</td>
+<td>$at</td>
+<td>保留给汇编器，不可做其他用途</td>
+</tr>
+<tr>
+<td>$2-$3</td>
+<td>$v0-$v1</td>
+<td>函数调用返回值，非浮点</td>
+</tr>
+<tr>
+<td>$4-$7</td>
+<td>$a0-$a3</td>
+<td>函数调用参数，不够时使用堆栈传递</td>
+</tr>
+<tr>
+<td>$8-$15</td>
+<td>$t0-$t7</td>
+<td>临时寄存器</td>
+</tr>
+<tr>
+<td>$16-$23</td>
+<td>$s0-$s7</td>
+<td>保存，函数调用后这些寄存器需要被恢复</td>
+</tr>
+<tr>
+<td>$24-$25</td>
+<td>$t8-$t9</td>
+<td>临时寄存器的补充</td>
+</tr>
+<tr>
+<td>$28</td>
+<td>$gp</td>
+<td>全局指针，指向静态数据区中运行决定的地址</td>
+</tr>
+<tr>
+<td>$29</td>
+<td>$sp</td>
+<td>堆栈指针</td>
+</tr>
+<tr>
+<td>$30</td>
+<td>$fp/$s8</td>
+<td>栈帧指针</td>
+</tr>
+<tr>
+<td>$31</td>
+<td>$ra</td>
+<td>返回地址，用于支持函数调用和子程序</td>
+</tr>
+</tbody></table>
+<h4 id="3-指令集"><a href="#3-指令集" class="headerlink" title="3.指令集"></a>3.指令集</h4><p>主要参考资料：</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://xuanxuanblingbling.github.io/ctf/pwn/2020/09/24/mips/">HWS赛题入门MIPS Pwn</a></li>
 </ul>
