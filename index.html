@@ -389,7 +389,72 @@
 <td>返回地址，用于支持函数调用和子程序</td>
 </tr>
 </tbody></table>
-<h4 id="3-指令集"><a href="#3-指令集" class="headerlink" title="3.指令集"></a>3.指令集</h4><p>主要参考资料：</p>
+<h4 id="3-指令集"><a href="#3-指令集" class="headerlink" title="3.指令集"></a>3.指令集</h4><p>MIPS指令长度为32位，其中指令位均为6位，其余26位可分为R型、I型、J型。常用参考指令表如下：</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>功能</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>li</td>
+<td>将一个最大16位的数立即存入寄存器</td>
+<td>li $Rd, imm</td>
+</tr>
+<tr>
+<td>lui</td>
+<td>将一个最大16位的数立即放入寄存器的高16位，低16位补0</td>
+<td>lui $a1, 0x42</td>
+</tr>
+<tr>
+<td>lw</td>
+<td>从一个指定的地址加载一个字的值到寄存器</td>
+<td>lw $s0, 0($sp)</td>
+</tr>
+<tr>
+<td>sw</td>
+<td>将寄存器中的值存入指定地址</td>
+<td>sw $a0, 0($sp)</td>
+</tr>
+<tr>
+<td>add</td>
+<td>带符号数相加，目标数存于第一个寄存器地址内</td>
+<td>add $t0, $t1, $t2</td>
+</tr>
+<tr>
+<td>sub</td>
+<td>带符号数相减</td>
+<td>sub $t0, $t1, $t2</td>
+</tr>
+<tr>
+<td>mult</td>
+<td>乘法，结果存于(Hi,Lo)中</td>
+<td>mult $t3, $t4</td>
+</tr>
+<tr>
+<td>div</td>
+<td>除法，结果存于(Hi,Lo)中</td>
+<td>div $t5, $t6</td>
+</tr>
+<tr>
+<td>mfhi</td>
+<td>获取Hi中的数值到某寄存器</td>
+<td>mfhi $t0</td>
+</tr>
+<tr>
+<td>mflo</td>
+<td>获取Lo中的数值到某寄存器</td>
+<td>mflo $t1</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>主要参考资料：</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://xuanxuanblingbling.github.io/ctf/pwn/2020/09/24/mips/">HWS赛题入门MIPS Pwn</a></li>
 </ul>
