@@ -87,7 +87,7 @@
 <meta property="og:description" content="模仿ctfwiki上实例进行首次pwn以及基本ROP的学习">
 <meta property="og:locale">
 <meta property="article:published_time" content="2020-11-19T07:39:04.000Z">
-<meta property="article:modified_time" content="2020-11-21T06:41:21.124Z">
+<meta property="article:modified_time" content="2020-11-22T13:22:39.165Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 
@@ -347,13 +347,13 @@
 <p>可以用checksec工具检查编译后的文件,命令和结果如下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">checksec stack_example</span><br><span class="line">    Arch:     i386-32-little</span><br><span class="line">    RELRO:    Partial RELRO</span><br><span class="line">    Stack:    No canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      No PIE (0x8048000)</span><br></pre></td></tr></table></figure>
 
-<p>因为Linux平台下还有地址空间分布随机化（ASLR）机制，可以通过修改<code>/proc/sys/kernel/randomize_va_space</code>来控制ASLR，可以通过cat指令查看其选项值，具体为：</p>
+<p>这里简要介绍下各项保护机制：</p>
 <ul>
-<li>0，关闭ASLR，无随机化，栈、堆、.so基地址每次都相同</li>
-<li>1，普通ASLR，栈基地址、mmap基地址、.so加载基地址随机化，堆基地址无随机化</li>
-<li>2，增强ASLR，在1的基础上增加了堆基地址随机化</li>
+<li>NX：通过现代操作系统内存保护单元MPU机制对内存页的权限进行设置，具体表现为可写权限与可执行权限互斥，gcc默认开启NX保护，可在编译时加入“-z execstack”参数关闭</li>
+<li>Stack Canary：针对栈溢出攻击的保护，因为栈溢出要通过溢出覆盖函数栈高位的返回地址，因此要在返回地址前写入一个字长的随机数据，在函数返回前校验该值是否被改变。gcc默认开启Stack Canary保护，可在编译时加入“-fno-stack-protector”参数关闭</li>
+<li>ASLR：将程序堆栈地址和动态链接库的加载地址进行一定的随机化，是系统等级的保护机制，关闭方法是修改<code>/proc/sys/kernel/randomize_va_space</code>为0，可使用<code>echo 0 &gt; /proc/sys/kernel/randomize_va_space</code>关闭</li>
+<li>PIE：类似于ASLR，将可执行程序ELF的地址进行随机化加载，可在编译时加入-no-pie”参数关闭</li>
 </ul>
-<p>可使用<code>echo 0 &gt; /proc/sys/kernel/randomize_va_space</code>关闭</p>
 <h4 id="分析可执行文件结构"><a href="#分析可执行文件结构" class="headerlink" title="分析可执行文件结构"></a>分析可执行文件结构</h4><p>用IDA打开可执行文件进行分析，可以看到vulnerable函数反编译后如下图所示：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">vulnerable</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> s; <span class="comment">// [esp+4h] [ebp-14h]</span></span><br><span class="line"></span><br><span class="line">  gets(&amp;s);</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">puts</span>(&amp;s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -371,7 +371,11 @@
 <p>python3中由于bytes和string做了区分不能直接使用以上代码，暂时也没啥好的解决方案，暂时搁置。</p>
 <p>在python2环境中运行以上脚本就可以看到success函数执行对应的输出。</p>
 <hr>
-<h3 id="ROP"><a href="#ROP" class="headerlink" title="ROP"></a>ROP</h3><p>ROP，即返回地址导向编程，通常利用动态链接库和可执行文件中可利用的指令片段，这些片段均以ret指令结尾，被称为gadgets。</p>
+<h3 id="ROP"><a href="#ROP" class="headerlink" title="ROP"></a>ROP</h3><p>ROP，即返回地址导向编程，通常利用动态链接库和可执行文件中可利用的指令片段，这些片段均以ret指令结尾，被称为gadgets。ROP攻击需要满足两个条件：</p>
+<ul>
+<li>程序存在溢出，并可控制返回地址</li>
+<li>找到满足条件的gadgets和对应的地址</li>
+</ul>
 
       
     </div>
