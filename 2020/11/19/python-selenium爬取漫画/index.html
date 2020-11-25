@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://example.com/2020/11/19/python-selenium%E7%88%AC%E5%8F%96%E6%BC%AB%E7%94%BB/2.png">
 <meta property="og:image" content="http://example.com/2020/11/19/python-selenium%E7%88%AC%E5%8F%96%E6%BC%AB%E7%94%BB/3.png">
 <meta property="article:published_time" content="2020-11-19T12:39:09.000Z">
-<meta property="article:modified_time" content="2020-11-21T05:43:46.530Z">
+<meta property="article:modified_time" content="2020-11-25T00:49:11.189Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2020/11/19/python-selenium%E7%88%AC%E5%8F%96%E6%BC%AB%E7%94%BB/9.jpg">
@@ -236,9 +236,43 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -367,7 +401,7 @@
 <p>可以正常运行，就是太慢……还可能会卡在某一页……继续改进</p>
 <hr>
 <p>修复了因频繁访问被强制断开连接的问题并换了一个好点的wifi后勉强能用了，完整代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">Name=<span class="string">&#x27;化物语&#x27;</span></span><br><span class="line">indexurl=<span class="string">&#x27;http://manhua.kukudm.com/comiclist/2372/&#x27;</span></span><br><span class="line">options=webdriver.FirefoxOptions()           </span><br><span class="line">options.headless=<span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">SavePic</span>(<span class="params">filename,url</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    保存单张图片的函数</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        content=requests.get(url).content</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(filename,<span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            f.write(content)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        SavePic(filename,url)</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_TOF</span>(<span class="params">index_url</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    从主页面获取各章节url</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    </span><br><span class="line">    url_list=[]</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#模拟浏览器打开网站</span></span><br><span class="line">    browser=webdriver.Firefox(options=options)</span><br><span class="line">    browser.get(index_url)</span><br><span class="line">    browser.implicitly_wait(<span class="number">3</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#获取章节列表的元素</span></span><br><span class="line">    comics_list_id=browser.find_element_by_id(<span class="string">&quot;comiclistn&quot;</span>)</span><br><span class="line">    chapter_list=comics_list_id.find_elements_by_xpath(<span class="string">&quot;./*&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#生成章节列表</span></span><br><span class="line">    <span class="keyword">for</span> part <span class="keyword">in</span> chapter_list:</span><br><span class="line">        link=part.find_elements_by_tag_name(<span class="string">&#x27;a&#x27;</span>)[<span class="number">1</span>]</span><br><span class="line">        url_list.append(link.get_attribute(<span class="string">&#x27;href&#x27;</span>))</span><br><span class="line">    </span><br><span class="line">    browser.quit()</span><br><span class="line">    </span><br><span class="line">    Comics=<span class="built_in">dict</span>(name=Name,urls=url_list)</span><br><span class="line">    </span><br><span class="line">    print(<span class="string">&quot;目录信息爬取成功&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> Comics</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_pic</span>(<span class="params">Comics</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    根据主页面获取的信息逐章爬取图片</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    comic_list=Comics[<span class="string">&#x27;urls&#x27;</span>]</span><br><span class="line">    basedir=Comics[<span class="string">&#x27;name&#x27;</span>]</span><br><span class="line">    </span><br><span class="line">    browser=webdriver.Firefox(options=options)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> url <span class="keyword">in</span> comic_list:</span><br><span class="line">        <span class="comment">#打开某一章节页面</span></span><br><span class="line">        browser.get(url)</span><br><span class="line">        browser.implicitly_wait(<span class="number">10</span>)</span><br><span class="line">        </span><br><span class="line">    </span><br><span class="line">        <span class="comment">#在本地创建文件夹保存</span></span><br><span class="line">        dirname=basedir+<span class="string">&#x27;/&#x27;</span>+<span class="built_in">str</span>(browser.title)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(dirname):</span><br><span class="line">            os.mkdir(dirname)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#获取页数</span></span><br><span class="line">        temptext=browser.find_element_by_xpath(<span class="string">&quot;//*[contains(text(),&#x27;共&#x27;)]&quot;</span>).text</span><br><span class="line">        pageNum=<span class="built_in">int</span>(re.findall(<span class="string">r&#x27;\d+&#x27;</span>,temptext)[<span class="number">1</span>])</span><br><span class="line">        </span><br><span class="line">        print(<span class="string">&#x27;开始爬取\t&#123;&#125;  &#x27;</span>.<span class="built_in">format</span>(browser.title)+<span class="string">&#x27;共&#x27;</span>+<span class="built_in">str</span>(pageNum)+<span class="string">&#x27;页&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">        cururl=url</span><br><span class="line">        <span class="comment">#逐页爬取图片</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,pageNum+<span class="number">1</span>):</span><br><span class="line">            </span><br><span class="line">            browser.get(cururl)</span><br><span class="line">            <span class="comment">#获取图片url</span></span><br><span class="line">            pic_url=browser.find_element_by_tag_name(<span class="string">&#x27;img&#x27;</span>).get_attribute(<span class="string">&#x27;src&#x27;</span>)</span><br><span class="line">            filename=dirname+<span class="string">&#x27;/&#x27;</span>+<span class="built_in">str</span>(i)+<span class="string">&#x27;.jpg&#x27;</span></span><br><span class="line">            <span class="comment">#保存图片到本地</span></span><br><span class="line">            time.sleep(<span class="number">2</span>)</span><br><span class="line">            SavePic(filename,pic_url)</span><br><span class="line">            <span class="comment">#获取下一页url</span></span><br><span class="line">            NextPage = browser.find_elements_by_tag_name(<span class="string">&#x27;a&#x27;</span>)[-<span class="number">1</span>].get_attribute(<span class="string">&#x27;href&#x27;</span>)</span><br><span class="line">            cururl=NextPage</span><br><span class="line">        </span><br><span class="line">        print(<span class="string">&#x27;当前章节\t&#123;&#125;  下载完毕&#x27;</span>.<span class="built_in">format</span>(browser.title))</span><br><span class="line">        </span><br><span class="line">    browser.quit()</span><br><span class="line">    print(<span class="string">&#x27;所有章节下载完毕&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">Comics=get_TOF(indexurl)</span><br><span class="line">get_pic(Comics)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">更新日志</span></span><br><span class="line"><span class="string">1.1 自动跳过空章节</span></span><br><span class="line"><span class="string">1.2 卡在一页时会自动刷新</span></span><br><span class="line"><span class="string">1.3 增加进度条功能</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Name=<span class="string">&#x27;化物语&#x27;</span></span><br><span class="line">indexurl=<span class="string">&#x27;http://manhua.kukudm.com/comiclist/2372/&#x27;</span></span><br><span class="line">options=webdriver.FirefoxOptions()           </span><br><span class="line">options.headless=<span class="literal">True</span></span><br><span class="line">start_chap=<span class="number">54</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">SavePic</span>(<span class="params">filename,url</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    保存单张图片的函数</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        content=requests.get(url).content</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(filename,<span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            f.write(content)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        SavePic(filename,url)</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_TOF</span>(<span class="params">index_url</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    从主页面获取各章节url</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    </span><br><span class="line">    url_list=[]</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#模拟浏览器打开网站</span></span><br><span class="line">    browser=webdriver.Firefox(options=options)</span><br><span class="line">    browser.get(index_url)</span><br><span class="line">    browser.implicitly_wait(<span class="number">3</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#获取章节列表的元素</span></span><br><span class="line">    comics_list_id=browser.find_element_by_id(<span class="string">&quot;comiclistn&quot;</span>)</span><br><span class="line">    chapter_list=comics_list_id.find_elements_by_xpath(<span class="string">&quot;./*&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#生成章节列表</span></span><br><span class="line">    <span class="keyword">for</span> part <span class="keyword">in</span> chapter_list:</span><br><span class="line">        link=part.find_elements_by_tag_name(<span class="string">&#x27;a&#x27;</span>)[<span class="number">1</span>]</span><br><span class="line">        url_list.append(link.get_attribute(<span class="string">&#x27;href&#x27;</span>))</span><br><span class="line">    </span><br><span class="line">    browser.quit()</span><br><span class="line">    </span><br><span class="line">    Comics=<span class="built_in">dict</span>(name=Name,urls=url_list)</span><br><span class="line">    </span><br><span class="line">    print(<span class="string">&quot;目录信息爬取成功&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> Comics</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_pic</span>(<span class="params">browser,cururl,dirname,i,n</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    为防止卡在一个页面设置的递归函数</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        browser.get(cururl)</span><br><span class="line">        <span class="comment">#获取图片url</span></span><br><span class="line">        pic_url=browser.find_element_by_tag_name(<span class="string">&#x27;img&#x27;</span>).get_attribute(<span class="string">&#x27;src&#x27;</span>)</span><br><span class="line">        filename=dirname+<span class="string">&#x27;/&#x27;</span>+<span class="built_in">str</span>(i)+<span class="string">&#x27;.jpg&#x27;</span></span><br><span class="line">        <span class="comment">#保存图片到本地</span></span><br><span class="line">        SavePic(filename,pic_url)</span><br><span class="line">        <span class="comment">#获取下一页url</span></span><br><span class="line">        NextPage = browser.find_elements_by_tag_name(<span class="string">&#x27;a&#x27;</span>)[-<span class="number">1</span>].get_attribute(<span class="string">&#x27;href&#x27;</span>)</span><br><span class="line">        <span class="keyword">return</span> NextPage</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">return</span> get_pic(browser,cururl,i)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_pics</span>(<span class="params">Comics</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    根据主页面获取的信息逐章爬取图片</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    comic_list=Comics[<span class="string">&#x27;urls&#x27;</span>]</span><br><span class="line">    basedir=Comics[<span class="string">&#x27;name&#x27;</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#desired_capabilities = DesiredCapabilities.FIREFOX</span></span><br><span class="line">    </span><br><span class="line">    browser=webdriver.Firefox(options=options)</span><br><span class="line">    <span class="comment">#desired_capabilities[&quot;pageLoadStrategy&quot;] = &quot;normal&quot;</span></span><br><span class="line">    curchap=<span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> url <span class="keyword">in</span> comic_list:</span><br><span class="line">        curchap+=<span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> curchap&lt;start_chap:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">#打开某一章节页面</span></span><br><span class="line">        browser.get(url)</span><br><span class="line">        browser.implicitly_wait(<span class="number">10</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment">#获取标题</span></span><br><span class="line">            title=browser.title</span><br><span class="line">            <span class="comment">#获取页数</span></span><br><span class="line">            temptext=browser.find_element_by_xpath(<span class="string">&quot;//*[contains(text(),&#x27;共&#x27;)]&quot;</span>).text</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">#在本地创建文件夹保存</span></span><br><span class="line">        dirname=basedir+<span class="string">&#x27;/&#x27;</span>+<span class="built_in">str</span>(title)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(dirname):</span><br><span class="line">            os.mkdir(dirname)</span><br><span class="line">        </span><br><span class="line">        pageNum=<span class="built_in">int</span>(re.findall(<span class="string">r&#x27;\d+&#x27;</span>,temptext)[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">        cururl=url</span><br><span class="line">        </span><br><span class="line">        pbar=tqdm(<span class="built_in">range</span>(pageNum))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> pbar:</span><br><span class="line">            cururl=get_pic(browser,cururl,dirname,i+<span class="number">1</span>,<span class="number">0</span>)</span><br><span class="line">            pbar.set_description(<span class="string">&#x27;&#123;&#125;  &#x27;</span>.<span class="built_in">format</span>(title)+<span class="string">&#x27;共&#x27;</span>+<span class="built_in">str</span>(pageNum)+<span class="string">&#x27;页&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">    browser.quit()</span><br><span class="line">    print(<span class="string">&#x27;所有章节下载完毕&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">Comics=get_TOF(indexurl)</span><br><span class="line">get_pics(Comics)</span><br></pre></td></tr></table></figure>
 
 <p>速度还是不够快，但selenium模拟浏览器操作也没法快到哪里去，以后可以考虑换个框架</p>
 
@@ -711,6 +745,323 @@
 
 
   
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "./public/search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
 
 
 
