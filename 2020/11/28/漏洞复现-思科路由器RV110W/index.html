@@ -86,15 +86,15 @@
 <meta property="og:site_name" content="青晷">
 <meta property="og:description" content="参照学长思路第一次做IOT设备的漏洞复现……心情复杂">
 <meta property="og:locale">
-<meta property="og:image" content="http://example.com/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/漏洞复现-思科路由器RV110W/image-20201130223158149.png">
-<meta property="og:image" content="http://example.com/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/漏洞复现-思科路由器RV110W/image-20201130223337112.png">
-<meta property="og:image" content="http://example.com/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/image-20201202090906028.png">
-<meta property="og:image" content="http://example.com/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/image-20201202091919843.png">
+<meta property="og:image" content="http://example.com/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/image-20201130223158149.png">
+<meta property="og:image" content="http://example.com/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/image-20201130223337112.png">
+<meta property="og:image" content="http://example.com/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/image-20201202090906028.png">
+<meta property="og:image" content="http://example.com/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/image-20201202091919843.png">
 <meta property="article:published_time" content="2020-11-28T06:47:28.000Z">
-<meta property="article:modified_time" content="2020-12-10T00:08:40.283Z">
+<meta property="article:modified_time" content="2020-12-10T00:22:54.596Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/漏洞复现-思科路由器RV110W/image-20201130223158149.png">
+<meta name="twitter:image" content="http://example.com/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/image-20201130223158149.png">
 
 
 
@@ -399,9 +399,10 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -Me RV110W_FW_1.2.2.5.bin</span><br></pre></td></tr></table></figure>
 
 <p>如下图所示</p>
-<img src="/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/漏洞复现-思科路由器RV110W/image-20201130223158149.png" alt="image-20201130223158149" style="zoom:50%;">
+<img src="/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/image-20201130223158149.png" alt="image-20201130223158149" style="zoom:50%;">
 
-<img src="/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/漏洞复现-思科路由器RV110W/image-20201130223337112.png" alt="image-20201130223337112" style="zoom:50%;">
+<img src="/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/image-20201130223337112.png" alt="image-20201130223337112" style="zoom:50%;">
+
 
 <p>查看文件，确认目标平台为：MIPS 32位 小端</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">file sbin/rc</span><br><span class="line">sbin/rc: ELF 32-bit LSB executable, MIPS, MIPS32 version 1 (SYSV), dynamically linked, interpreter /lib/ld-uClibc.so.0, stripped</span><br></pre></td></tr></table></figure>
@@ -460,10 +461,10 @@
 <p>但是直接反汇编分析还是比较复杂，因为新版本固件修复了以上漏洞，不妨对比查看</p>
 <h5 id="固件对比"><a href="#固件对比" class="headerlink" title="固件对比"></a>固件对比</h5><p>下载新版1.2.2.8固件，同样用binwalk解包，对比httpd程序，这里就要使用IDA的bindiff插件，注意官网下载需要科学上网，安装时要指定IDA目录，我安装时初次是用4.30版本，不适用于7.x版本的ida，用5版本的bindiff即可。</p>
 <p>在IDA的File菜单中可使用这一工具，在保存了两个文件的idb情况下，打开一个文件后用该工具选中另一个文件的idb，即可对比查看，可以在Matched Functions界面看到如下图所示</p>
-<p><img src="/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/image-20201202090906028.png" alt="image-20201202090906028"></p>
+<p><img src="/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/image-20201202090906028.png" alt="image-20201202090906028"></p>
 <p>颜色越红的函数越不匹配。考虑到目标是获取前台的get_shell，所以guest_logout_cgi比较可疑，右键该函数选择<code>View flow graphs</code>功能即可进入bindiff对比查看</p>
 <p>可以看到一个危险函数<code>sscanf</code></p>
-<p><img src="/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/image-20201202091919843.png" alt="image-20201202091919843"></p>
+<p><img src="/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/image-20201202091919843.png" alt="image-20201202091919843"></p>
 <p>测试访问guest_logout.cgi，发现是可以访问的</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">ssr@ubuntu:~$ curl -k -v https://192.168.1.1/guest_logout.cgi</span><br><span class="line">*   Trying 192.168.1.1...</span><br><span class="line">* Connected to 192.168.1.1 (192.168.1.1) port 443 (<span class="comment">#0)</span></span><br><span class="line">* found 138 certificates <span class="keyword">in</span> /etc/ssl/certs/ca-certificates.crt</span><br><span class="line">* found 557 certificates <span class="keyword">in</span> /etc/ssl/certs</span><br><span class="line">* ALPN, offering http/1.1</span><br><span class="line">* SSL connection using TLS1.2 / RSA_AES_128_GCM_SHA256</span><br><span class="line">* 	 server certificate verification SKIPPED</span><br><span class="line">* 	 server certificate status verification SKIPPED</span><br><span class="line">* 	 common name: BC:67:1C:41:F8:06 (does not match <span class="string">&#x27;192.168.1.1&#x27;</span>)</span><br><span class="line">* 	 server certificate expiration date OK</span><br><span class="line">* 	 server certificate activation date OK</span><br><span class="line">* 	 certificate public key: RSA</span><br><span class="line">* 	 certificate version: <span class="comment">#3</span></span><br><span class="line">* 	 subject: O=Cisco Systems\, Inc.,OU=Cisco,CN=BC:67:1C:41:F8:06,serialNumber=PID:RV110W-E SN:CCQ20311409</span><br><span class="line">* 	 start date: Thu, 09 Oct 2014 09:15:25 GMT</span><br><span class="line">* 	 expire date: Sun, 06 Oct 2024 09:15:25 GMT</span><br><span class="line">* 	 issuer: O=Cisco Systems\, Inc.,OU=Cisco,CN=BC:67:1C:41:F8:06,serialNumber=PID:RV110W-E SN:CCQ20311409</span><br><span class="line">* 	 compression: NULL</span><br><span class="line">* ALPN, server did not agree to a protocol</span><br><span class="line">&gt; GET /guest_logout.cgi HTTP/1.1</span><br><span class="line">&gt; Host: 192.168.1.1</span><br><span class="line">&gt; User-Agent: curl/7.47.0</span><br><span class="line">&gt; Accept: */*</span><br><span class="line">&gt; </span><br><span class="line">&lt; HTTP/1.1 200 Ok</span><br><span class="line">&lt; Server: httpd</span><br><span class="line">&lt; Date: Fri, 01 Jan 2010 03:20:09 GMT</span><br><span class="line">&lt; Cache-Control: no-cache</span><br><span class="line">&lt; Pragma: no-cache</span><br><span class="line">&lt; Expires: 0</span><br><span class="line">&lt; Content-Type: text/html</span><br><span class="line">&lt; Connection: close</span><br><span class="line">&lt; </span><br><span class="line">* Closing connection 0</span><br></pre></td></tr></table></figure>
 
