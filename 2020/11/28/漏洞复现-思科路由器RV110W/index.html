@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://example.com/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/image-20201202090906028.png">
 <meta property="og:image" content="http://example.com/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/image-20201202091919843.png">
 <meta property="article:published_time" content="2020-11-28T06:47:28.000Z">
-<meta property="article:modified_time" content="2020-12-10T00:22:54.596Z">
+<meta property="article:modified_time" content="2020-12-16T02:21:41.075Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2020/11/28/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E6%80%9D%E7%A7%91%E8%B7%AF%E7%94%B1%E5%99%A8RV110W/image-20201130223158149.png">
@@ -436,8 +436,8 @@
 <td>绕过前台认证，到后台执行命令</td>
 </tr>
 </tbody></table>
-<p>排查部分漏洞</p>
-<h4 id="CVE-2020-3144"><a href="#CVE-2020-3144" class="headerlink" title="CVE-2020-3144"></a>CVE-2020-3144</h4><h4 id="CVE-2020-3330"><a href="#CVE-2020-3330" class="headerlink" title="CVE-2020-3330"></a>CVE-2020-3330</h4><h3 id="攻击目标"><a href="#攻击目标" class="headerlink" title="攻击目标"></a>攻击目标</h3><p>确定目标为CVE-2020-3331和CVE-2020-3323，因为都是Web前台RCE，且目标只开放了443端口(80端口被重定向)，所以要先找到Web对应的二进制程序</p>
+<h4 id="CVE-2020-3330"><a href="#CVE-2020-3330" class="headerlink" title="CVE-2020-3330"></a>CVE-2020-3330</h4><p>该漏洞为telnet服务的漏洞，可以在固件内找到管理员用户以及对应的密码hash值，<a target="_blank" rel="noopener" href="https://blogs.360.cn/post/yi-ge-zi-jie-cha-cuo-dao-zhi-Cisco-fang-huo-qiang-lu-you-qi-yuan-cheng-dai-ma-zhi-xing.html">一篇分析该漏洞的文章</a></p>
+<h3 id="攻击目标"><a href="#攻击目标" class="headerlink" title="攻击目标"></a>攻击目标</h3><p>确定目标为CVE-2020-3331和CVE-2020-3323，因为都是Web前台RCE，且目标只开放了443端口(80端口被重定向)，所以要先找到Web对应的二进制程序</p>
 <h4 id="固件搜索"><a href="#固件搜索" class="headerlink" title="固件搜索"></a>固件搜索</h4><p>全局搜索登陆界面名称<code>login.cgi</code></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssr@ubuntu:~$ grep -Rn <span class="string">&quot;login.cgi&quot;</span> * 2&gt;/dev/null</span><br><span class="line">匹配到二进制文件 iot/rv110w/_RV110W_FW_1.2.2.5.bin.extracted/squashfs-root/usr/sbin/httpd</span><br><span class="line">iot/rv110w/_RV110W_FW_1.2.2.5.bin.extracted/squashfs-root/www/login.asp:453:&lt;FORM id=frm name=login method=&lt;% get_http_method(); %&gt; action=<span class="string">&quot;login.cgi&quot;</span> onKeyDown=chk_keypress(event) autocomplete=off&gt;</span><br></pre></td></tr></table></figure>
 
@@ -558,6 +558,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2020/12/17/%E7%A5%A5%E4%BA%91%E6%9D%AFre-writeup/" rel="prev" title="祥云杯re-writeup">
+                祥云杯re-writeup <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -637,7 +641,7 @@
               
                 <a href="/archives/%7C%7Carchive">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -674,7 +678,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">1.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BA%E4%BB%B6%E6%8F%90%E5%8F%96%E4%B8%8E%E8%A7%A3%E5%8C%85"><span class="nav-number">2.</span> <span class="nav-text">固件提取与解包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E4%BF%A1%E6%81%AF"><span class="nav-number">3.</span> <span class="nav-text">漏洞信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CVE-2020-3144"><span class="nav-number">3.1.</span> <span class="nav-text">CVE-2020-3144</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CVE-2020-3330"><span class="nav-number">3.2.</span> <span class="nav-text">CVE-2020-3330</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E7%9B%AE%E6%A0%87"><span class="nav-number">4.</span> <span class="nav-text">攻击目标</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BA%E4%BB%B6%E6%90%9C%E7%B4%A2"><span class="nav-number">4.1.</span> <span class="nav-text">固件搜索</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E5%88%86%E6%9E%90"><span class="nav-number">4.2.</span> <span class="nav-text">端口分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87%E5%88%86%E6%9E%90"><span class="nav-number">4.3.</span> <span class="nav-text">目标分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%BA%E4%BB%B6%E5%AF%B9%E6%AF%94"><span class="nav-number">4.3.1.</span> <span class="nav-text">固件对比</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8requests%E5%8F%91%E5%8C%85%E6%B5%8B%E8%AF%95%E8%AF%A5%E7%A8%8B%E5%BA%8F"><span class="nav-number">4.4.</span> <span class="nav-text">用requests发包测试该程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E8%AF%95%E7%A8%8B%E5%BA%8F"><span class="nav-number">4.5.</span> <span class="nav-text">调试程序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A1%AE%E8%AE%A4%E6%BA%A2%E5%87%BA%E9%95%BF%E5%BA%A6"><span class="nav-number">5.1.</span> <span class="nav-text">确认溢出长度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A9%BA%E5%AD%97%E8%8A%82%E7%BB%95%E8%BF%87"><span class="nav-number">5.2.</span> <span class="nav-text">空字节绕过</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">1.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BA%E4%BB%B6%E6%8F%90%E5%8F%96%E4%B8%8E%E8%A7%A3%E5%8C%85"><span class="nav-number">2.</span> <span class="nav-text">固件提取与解包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E4%BF%A1%E6%81%AF"><span class="nav-number">3.</span> <span class="nav-text">漏洞信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CVE-2020-3330"><span class="nav-number">3.1.</span> <span class="nav-text">CVE-2020-3330</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E7%9B%AE%E6%A0%87"><span class="nav-number">4.</span> <span class="nav-text">攻击目标</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BA%E4%BB%B6%E6%90%9C%E7%B4%A2"><span class="nav-number">4.1.</span> <span class="nav-text">固件搜索</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E5%88%86%E6%9E%90"><span class="nav-number">4.2.</span> <span class="nav-text">端口分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87%E5%88%86%E6%9E%90"><span class="nav-number">4.3.</span> <span class="nav-text">目标分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%BA%E4%BB%B6%E5%AF%B9%E6%AF%94"><span class="nav-number">4.3.1.</span> <span class="nav-text">固件对比</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8requests%E5%8F%91%E5%8C%85%E6%B5%8B%E8%AF%95%E8%AF%A5%E7%A8%8B%E5%BA%8F"><span class="nav-number">4.4.</span> <span class="nav-text">用requests发包测试该程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E8%AF%95%E7%A8%8B%E5%BA%8F"><span class="nav-number">4.5.</span> <span class="nav-text">调试程序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A1%AE%E8%AE%A4%E6%BA%A2%E5%87%BA%E9%95%BF%E5%BA%A6"><span class="nav-number">5.1.</span> <span class="nav-text">确认溢出长度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A9%BA%E5%AD%97%E8%8A%82%E7%BB%95%E8%BF%87"><span class="nav-number">5.2.</span> <span class="nav-text">空字节绕过</span></a></li></ol></li></ol></div>
             
 
           </div>
