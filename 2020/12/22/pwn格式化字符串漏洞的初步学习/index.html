@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="昼短苦夜长，何不秉烛游">
-<meta property="og:type" content="website">
-<meta property="og:title" content="schedule">
-<meta property="og:url" content="http://example.com/schedule/index.html">
+<meta name="description" content="逆向学了一部分还需要学更多pwn的内容，所以继续往下学">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pwn格式化字符串漏洞的初步学习">
+<meta property="og:url" content="http://example.com/2020/12/22/pwn%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="青晷">
-<meta property="og:description" content="昼短苦夜长，何不秉烛游">
+<meta property="og:description" content="逆向学了一部分还需要学更多pwn的内容，所以继续往下学">
 <meta property="og:locale">
-<meta property="article:published_time" content="2020-11-21T05:52:55.000Z">
-<meta property="article:modified_time" content="2020-11-21T05:52:55.456Z">
+<meta property="article:published_time" content="2020-12-22T13:11:00.000Z">
+<meta property="article:modified_time" content="2020-12-22T14:08:31.491Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/schedule/"/>
+  <link rel="canonical" href="http://example.com/2020/12/22/pwn格式化字符串漏洞的初步学习/"/>
 
 
 
 
 
-  <title>schedule | 青晷</title>
+  <title>pwn格式化字符串漏洞的初步学习 | 青晷</title>
   
 
 
@@ -284,33 +284,154 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/22/pwn%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青晷">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">schedule</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
+          <h1 class="post-title" itemprop="name headline">pwn格式化字符串漏洞的初步学习</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-12-22T21:11:00+08:00">
+                2020-12-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-      </div>
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p>逆向学了一部分还需要学更多pwn的内容，所以继续往下学</p>
+<a id="more"></a>
+
+<h2 id="格式化字符串漏洞简介"><a href="#格式化字符串漏洞简介" class="headerlink" title="格式化字符串漏洞简介"></a>格式化字符串漏洞简介</h2><p>格式化字符串函数为使用第一个参数作为格式化字符串并解析之后参数的函数，对于C语言，包括最常用的scanf和printf等</p>
+<p>其中格式化字符串基本格式如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;%[parameter][flags][field width][.precision][length]type&quot;</span></span><br><span class="line"><span class="comment">//parameter:获取格式化字符串的指定参数</span></span><br><span class="line"><span class="comment">//field width:输出的最小宽度</span></span><br><span class="line"><span class="comment">//.precision:输出的最大精度</span></span><br><span class="line"><span class="comment">//length:输出的长度，hh为输出一个字节，h为输出一个双字节</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	type:</span></span><br><span class="line"><span class="comment">	d/i,有符号整数</span></span><br><span class="line"><span class="comment">	u，无符号整数</span></span><br><span class="line"><span class="comment">	x/X，16进制无符号整数</span></span><br><span class="line"><span class="comment">	s,字符串</span></span><br><span class="line"><span class="comment">	c,字符</span></span><br><span class="line"><span class="comment">	p,用地址的格式打印type变量的值</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>格式化字符串函数解析字符串是通过后续的参数进行的，所以若能控制之后的参数，便可以利用格式化字符串函数进行自己的操作，即为格式化字符串漏洞</p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/17/%E7%A5%A5%E4%BA%91%E6%9D%AFre-writeup/" rel="next" title="祥云杯re-writeup">
+                <i class="fa fa-chevron-left"></i> 祥云杯re-writeup
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/12/26/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91IoT%E9%97%AF%E5%85%B3%E8%B5%9Bpwn%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" rel="prev" title="西湖论剑IoT闯关赛pwn漏洞复现">
+                西湖论剑IoT闯关赛pwn漏洞复现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -343,8 +464,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -390,6 +520,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">格式化字符串漏洞简介</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
