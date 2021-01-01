@@ -95,7 +95,7 @@
 <meta property="og:image" content="http://example.com/2020/12/26/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91IoT%E9%97%AF%E5%85%B3%E8%B5%9Bpwn%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/image-20201229191323434.png">
 <meta property="og:image" content="http://example.com/2020/12/26/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91IoT%E9%97%AF%E5%85%B3%E8%B5%9Bpwn%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/image-20201229193136413.png">
 <meta property="article:published_time" content="2020-12-26T13:00:43.000Z">
-<meta property="article:modified_time" content="2020-12-30T09:09:38.451Z">
+<meta property="article:modified_time" content="2020-12-31T05:58:21.658Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2020/12/26/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91IoT%E9%97%AF%E5%85%B3%E8%B5%9Bpwn%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/1">
@@ -418,12 +418,14 @@
 <img src="/2020/12/26/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91IoT%E9%97%AF%E5%85%B3%E8%B5%9Bpwn%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/image-20201229193136413.png" alt="image-20201229193136413" style="zoom:80%;">
 
 <p>主要利用这两个，其实在delete函数中还存在一个UAF漏洞，但我不会用，这两个也够了</p>
-<h3 id="漏洞测试"><a href="#漏洞测试" class="headerlink" title="漏洞测试"></a>漏洞测试</h3><p>这里先用qemu模拟arm环境对固件进行测试，我原来已安装过qemu，但在直接执行上出了点文件，没有找到对应库函数，需要安装并指定共享环境，问题和解决方法如下：</p>
+<h3 id="漏洞测试"><a href="#漏洞测试" class="headerlink" title="漏洞测试"></a>漏洞测试</h3><p>测试第一个栈溢出漏洞，可以在register结束后在调用info函数查看溢出情况，这里需要在主函数调用info前<code>0x00010ED8</code>处下断点</p>
+<p>这里先用qemu模拟arm环境，我原来已安装过qemu，但在直接执行上出了点文件，没有找到对应库函数，需要安装并指定共享环境，问题和解决方法如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ssr@ubuntu:~/iot/west$ qemu-arm -L ./ ./pwn3</span><br><span class="line">/lib/ld-linux.so.3: No such file or directory</span><br><span class="line">ssr@ubuntu:~/iot/west$ sudo apt-get install libc6-armhf-cross</span><br><span class="line"></span><br><span class="line">ssr@ubuntu:~/iot/west$ qemu-arm -L /usr/arm-linux-gnueabihf/ ./pwn3</span><br><span class="line">Please registered account </span><br><span class="line">Input your username:</span><br></pre></td></tr></table></figure>
 
 <p>启动<code>qemu-user</code>的调试模式<code>qemu-arm -g 3456 -L /usr/arm-linux-gnueabihf/ ./pwn3 | hexdump -C</code>，在另一个终端启动gdb进行调试</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">ssr@ubuntu:~/iot/west$ gdb-multiarch -q ./pwn3</span><br><span class="line">pwndbg: loaded 190 commands. Type pwndbg [filter] <span class="keyword">for</span> a list.</span><br><span class="line">pwndbg: created <span class="variable">$rebase</span>, <span class="variable">$ida</span> gdb <span class="built_in">functions</span> (can be used with <span class="built_in">print</span>/<span class="built_in">break</span>)</span><br><span class="line">Reading symbols from ./pwn3...(no debugging symbols found)...<span class="keyword">done</span>.</span><br><span class="line">pwndbg&gt; <span class="built_in">set</span> solib-search-path /usr/arm-linux-gnueabihf/lib</span><br><span class="line">gdb-peda$ <span class="built_in">set</span> architecture arm</span><br><span class="line">The target architecture is assumed to be arm</span><br><span class="line">gdb-peda$ <span class="built_in">set</span> endian little</span><br><span class="line">The target is assumed to be little endian</span><br><span class="line">gdb-peda$ target remote :3456</span><br><span class="line">Remote debugging using :3456</span><br><span class="line">warning: remote target does not support file transfer, attempting to access files from <span class="built_in">local</span> filesystem.</span><br><span class="line">warning: Unable to find dynamic linker breakpoint <span class="keyword">function</span>.</span><br><span class="line">GDB will be unable to debug shared library initializers</span><br><span class="line">and track explicitly loaded dynamic code.</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ssr@ubuntu:~/iot/west$ gdb-multiarch -q ./pwn3</span><br><span class="line">pwndbg: loaded 190 commands. Type pwndbg [filter] <span class="keyword">for</span> a list.</span><br><span class="line">pwndbg: created <span class="variable">$rebase</span>, <span class="variable">$ida</span> gdb <span class="built_in">functions</span> (can be used with <span class="built_in">print</span>/<span class="built_in">break</span>)</span><br><span class="line">Reading symbols from ./pwn3...(no debugging symbols found)...<span class="keyword">done</span>.</span><br><span class="line">pwndbg&gt; <span class="built_in">set</span> architecture arm</span><br><span class="line">The target architecture is assumed to be arm</span><br><span class="line">pwndbg&gt; <span class="built_in">set</span> endian little</span><br><span class="line">The target is assumed to be little endian</span><br><span class="line">pwndbg&gt; <span class="built_in">set</span> solib-search-path /usr/arm-linux-gnueabihf/lib</span><br><span class="line">pwndbg&gt; b * 0x00010ED8</span><br><span class="line">Breakpoint 1 at 0x10b10</span><br><span class="line">pwndbg&gt; target remote:3456</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<p>在模拟器端用户名输入a*20尝试填满src缓冲区</p>
 
       
     </div>
@@ -598,7 +600,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
