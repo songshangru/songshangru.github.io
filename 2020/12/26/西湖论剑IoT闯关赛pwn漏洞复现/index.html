@@ -95,7 +95,7 @@
 <meta property="og:image" content="http://example.com/2020/12/26/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91IoT%E9%97%AF%E5%85%B3%E8%B5%9Bpwn%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/image-20201229191323434.png">
 <meta property="og:image" content="http://example.com/2020/12/26/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91IoT%E9%97%AF%E5%85%B3%E8%B5%9Bpwn%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/image-20201229193136413.png">
 <meta property="article:published_time" content="2020-12-26T13:00:43.000Z">
-<meta property="article:modified_time" content="2020-12-31T05:58:21.658Z">
+<meta property="article:modified_time" content="2021-03-01T15:48:37.518Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2020/12/26/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91IoT%E9%97%AF%E5%85%B3%E8%B5%9Bpwn%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/1">
@@ -401,7 +401,7 @@
 <p>打开minicom，重连串口设备，可以正常连接</p>
 <img src="/2020/12/26/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91IoT%E9%97%AF%E5%85%B3%E8%B5%9Bpwn%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/image-20201229100926565.png" alt="image-20201229100926565" style="zoom:67%;">
 
-<h2 id="Pwn3"><a href="#Pwn3" class="headerlink" title="Pwn3"></a>Pwn3</h2><p>首先nmap扫描可以找到9999的端口，用nc连上可以看到题目的输入接口</p>
+<h2 id="Pwn1"><a href="#Pwn1" class="headerlink" title="Pwn1"></a>Pwn1</h2><h2 id="Pwn2"><a href="#Pwn2" class="headerlink" title="Pwn2"></a>Pwn2</h2><h2 id="Pwn3"><a href="#Pwn3" class="headerlink" title="Pwn3"></a>Pwn3</h2><p>首先nmap扫描可以找到9999的端口，用nc连上可以看到题目的输入接口</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">ssr@ubuntu:~$ nmap 20.20.11.14</span><br><span class="line"></span><br><span class="line">Starting Nmap 7.01 ( https://nmap.org ) at 2020-12-29 02:41 PST</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 20.20.11.14</span><br><span class="line">Host is up (0.013s latency).</span><br><span class="line">Not shown: 998 closed ports</span><br><span class="line">PORT     STATE SERVICE</span><br><span class="line">22/tcp   open  ssh</span><br><span class="line">9999/tcp open  abyss</span><br><span class="line"></span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 2.39 seconds</span><br><span class="line"></span><br><span class="line">ssr@ubuntu:~$ nc 20.20.11.14 9999</span><br><span class="line">Please registered account </span><br><span class="line">Input your username:</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>检查题目固件，可以看到是arm小端结构，没开canary，开了NX保护，但是实际上这个保护没在板子上起作用</p>
@@ -543,7 +543,7 @@
               
                 <a href="/archives/%7C%7Carchive">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -580,7 +580,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E6%9D%BF%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">开发板使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E5%86%99%E5%85%A5%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">题目写入方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%B2%E5%8F%A3%E8%BF%9E%E6%8E%A5%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.1.</span> <span class="nav-text">串口连接方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pwn3"><span class="nav-number">2.</span> <span class="nav-text">Pwn3</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%8F%91%E7%8E%B0"><span class="nav-number">2.1.</span> <span class="nav-text">漏洞发现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%88%E6%BA%A2%E5%87%BA1"><span class="nav-number">2.1.1.</span> <span class="nav-text">栈溢出1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%88%E6%BA%A2%E5%87%BA2"><span class="nav-number">2.1.2.</span> <span class="nav-text">栈溢出2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E6%B5%8B%E8%AF%95"><span class="nav-number">2.2.</span> <span class="nav-text">漏洞测试</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E6%9D%BF%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">开发板使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E5%86%99%E5%85%A5%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">题目写入方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%B2%E5%8F%A3%E8%BF%9E%E6%8E%A5%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.1.</span> <span class="nav-text">串口连接方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pwn1"><span class="nav-number">2.</span> <span class="nav-text">Pwn1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pwn2"><span class="nav-number">3.</span> <span class="nav-text">Pwn2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pwn3"><span class="nav-number">4.</span> <span class="nav-text">Pwn3</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%8F%91%E7%8E%B0"><span class="nav-number">4.1.</span> <span class="nav-text">漏洞发现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%88%E6%BA%A2%E5%87%BA1"><span class="nav-number">4.1.1.</span> <span class="nav-text">栈溢出1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%88%E6%BA%A2%E5%87%BA2"><span class="nav-number">4.1.2.</span> <span class="nav-text">栈溢出2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E6%B5%8B%E8%AF%95"><span class="nav-number">4.2.</span> <span class="nav-text">漏洞测试</span></a></li></ol></li></ol></div>
             
 
           </div>

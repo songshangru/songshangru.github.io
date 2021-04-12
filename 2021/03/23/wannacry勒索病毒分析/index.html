@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="可从该项目中获取到Wannacry样本 参考报告： https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_31507523&#x2F;article&#x2F;details&#x2F;92418644 https:&#x2F;&#x2F;www.freebuf.com&#x2F;column&#x2F;135722.html 样本运行  样本文件夹    ed01…..exe：样本文件 taskdl.exe：删除临时目录和回收站下的所有后缀为WNCRYT”的文件 ta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Wannacry勒索病毒分析">
+<meta property="og:url" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="青晷">
+<meta property="og:description" content="可从该项目中获取到Wannacry样本 参考报告： https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_31507523&#x2F;article&#x2F;details&#x2F;92418644 https:&#x2F;&#x2F;www.freebuf.com&#x2F;column&#x2F;135722.html 样本运行  样本文件夹    ed01…..exe：样本文件 taskdl.exe：删除临时目录和回收站下的所有后缀为WNCRYT”的文件 ta">
+<meta property="og:locale">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210329133101852.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210329133146211.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325135126646.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326174059894.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325135855022.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210329133742369.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325140947904.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325131946391.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325132234721.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325133326123.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325143531454.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325150004411.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325150718119.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325192019854.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325192710504.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325193305320.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325194452415.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325200301166.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326150754064.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326151807231.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326153448991.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326163249092.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326163513527.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326165428529.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326172626167.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326172741044.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326173440743.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210327100712464.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210327100743585.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210327100937542.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210327101922203.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210327104944373.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210327130256949.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210328095316358.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210328100831958.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210328101721963.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210328103332749.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210328104452000.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210328105114066.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210329134040661.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210404093355277.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210404130703678.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210404130723104.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210404131641809.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210404131716931.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210404133908035.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210404135053832.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210404142530858.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210405105224751.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210405105606047.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210405110708477.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210405111147513.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210405112241501.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210405135139721.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210329125117408.png">
+<meta property="og:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210329125715150.png">
+<meta property="article:published_time" content="2021-03-23T08:31:14.000Z">
+<meta property="article:modified_time" content="2021-04-06T08:49:29.137Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210329133101852.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2021/03/23/wannacry勒索病毒分析/"/>
+
+
+
+
+
+  <title>Wannacry勒索病毒分析 | 青晷</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">青晷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">昼短苦夜长，何不秉烛游</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青晷">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Wannacry勒索病毒分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-23T16:31:14+08:00">
+                2021-03-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>可从该<a target="_blank" rel="noopener" href="https://github.com/ytisf/theZoo">项目</a>中获取到Wannacry样本</p>
+<p>参考报告：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_31507523/article/details/92418644">https://blog.csdn.net/qq_31507523/article/details/92418644</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/column/135722.html">https://www.freebuf.com/column/135722.html</a></p>
+<h2 id="样本运行"><a href="#样本运行" class="headerlink" title="样本运行"></a>样本运行</h2><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210329133101852.png" alt="image-20210329133101852" style="zoom:80%;">
+
+<p>样本文件夹</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210329133146211.png" alt="image-20210329133146211" style="zoom:80%;">
+
+<ul>
+<li>ed01…..exe：样本文件</li>
+<li>taskdl.exe：删除临时目录和回收站下的所有后缀为<code>WNCRYT</code>”的文件</li>
+<li>taskse.exe：</li>
+<li>@WanaDecryptor：修改壁纸，定时弹出勒索窗口</li>
+<li>00000000.eky：保存加密后的私钥</li>
+<li>00000000.pky：保存公钥</li>
+<li>00000000.res：保存时间信息</li>
+<li>b.wnry：</li>
+<li>c.wnry：保存比特币接收账户信息</li>
+<li>r.wnry：一些勒索病毒作者留给受害者的说明信息</li>
+<li>s.wnry：</li>
+<li>t.wnry：保存主要恶意代码的加密文件</li>
+<li>u.wnry：</li>
+</ul>
+<h2 id="详细分析"><a href="#详细分析" class="headerlink" title="详细分析"></a>详细分析</h2><h3 id="样本exe程序"><a href="#样本exe程序" class="headerlink" title="样本exe程序"></a>样本exe程序</h3><h4 id="main函数"><a href="#main函数" class="headerlink" title="main函数"></a>main函数</h4><p>进入IDA，main函数主要部分如下所示</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325135126646.png" alt="image-20210325135126646" style="zoom:80%;">
+
+<p>详细分析最终结果可参考如下</p>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326174059894.png" alt="image-20210326174059894"></p>
+<p>其中重要步骤的分析可参考如下部分</p>
+<h4 id="修改注册表项"><a href="#修改注册表项" class="headerlink" title="修改注册表项"></a>修改注册表项</h4><p>由原<code>sub_4010FD</code>函数实现，该函数结构为</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325135855022.png" alt="image-20210325135855022" style="zoom:80%;">
+
+<ul>
+<li>拼接字符串Destination为“Software\WanaCrypt0r”</li>
+<li>分别在HKCU和HKLM中创建<code>Software\WanaCrypt0r</code>表，并分别设置表项名为“wd”，值为当前目录全路径</li>
+</ul>
+<p>修改结果如下图所示</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210329133742369.png" alt="image-20210329133742369" style="zoom:67%;">
+
+<h4 id="释放资源节到文件"><a href="#释放资源节到文件" class="headerlink" title="释放资源节到文件"></a>释放资源节到文件</h4><p>由原<code>sub_401DAB</code>函数实现，参数为Str（‘WNcry@2ol7’），该函数结构为</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325140947904.png" alt="image-20210325140947904" style="zoom:80%;">
+
+<ul>
+<li><p>查找并载入资源节<code>XIA</code></p>
+</li>
+<li><p>调用函数<code>sub_4075AD</code>，使用到了参数Str，调用函数<code>sub_4075C4</code></p>
+</li>
+<li><p>以上两个函数都有些复杂，暂时不做进一步分析，先对资源节进行分析</p>
+<p>用Resource Hacker查看该样本资源节</p>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325131946391.png" alt="image-20210325131946391"></p>
+<p>该段二进制以PK开头，推测为zip压缩文件，提取出来试试看，确实是，还需要解压密码</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325132234721.png" alt="image-20210325132234721" style="zoom:67%;">
+
+<p>由于之前用到了参数Str，推测解压密码为‘WNcry@2ol7’</p>
+<p>用该字符串解压成功，在解压目录下存在如下文件</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325133326123.png" alt="image-20210325133326123" style="zoom:67%;">
+
+<p>合理推测之前两个函数为解压资源节并解析文件的操作</p>
+</li>
+<li><p>循环遍历释放的文件，比较该文件名与Str2（’c.wnry’）的关系，如果不等，则调用函数<code>sub_40763D</code>，释放该压缩过后的文件</p>
+</li>
+</ul>
+<h4 id="写入比特币账户信息"><a href="#写入比特币账户信息" class="headerlink" title="写入比特币账户信息"></a>写入比特币账户信息</h4><p>由原<code>sub_401E9E</code>函数实现，该函数结构为</p>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325143531454.png" alt="image-20210325143531454"></p>
+<ul>
+<li><p>对Source数组赋值</p>
+</li>
+<li><p>调用函数<code>sub_401000</code>，该函数结构比较清晰</p>
+<ul>
+<li>当第二个参数为1时，打开并读取文件<code>c.wnry</code></li>
+<li>当第二个参数为0时，打开并写入文件<code>c.wnry</code></li>
+</ul>
+</li>
+<li><p>因此可推测该函数会从以上三个字符串中随机选取一个写入到文件<code>c.wnry</code>中</p>
+</li>
+<li><p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325150004411.png" alt="image-20210325150004411"></p>
+<p>并且，将<code>c.wnry</code>中部分内容与勒索软件界面的比特币账户信息进行对比，可以看出是同一个，所以<code>c.wnry</code>文件中存储的是比特币账户信息</p>
+</li>
+</ul>
+<h4 id="隐藏当前文件夹和创建账户"><a href="#隐藏当前文件夹和创建账户" class="headerlink" title="隐藏当前文件夹和创建账户"></a>隐藏当前文件夹和创建账户</h4><p>均由原<code>sub_401E9E</code>函数实现，传入的参数分别为</p>
+<ul>
+<li>lpCommandLine（’attrib +h .’）</li>
+<li>aIcaclsGrantEve（’icacls . /grant Everyone:F /T /C /Q‘）</li>
+</ul>
+<p>该函数结构如下，作用是创建进程并执行命令</p>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325150718119.png" alt="image-20210325150718119"></p>
+<ul>
+<li><code>attrib +h .</code>作用是隐藏当前目录</li>
+<li><code>icacls . /grant Everyone:F /T /C /Q</code>作用是创建账户Everyone，授予/T /C /Q权限</li>
+</ul>
+<h4 id="载入部分函数API"><a href="#载入部分函数API" class="headerlink" title="载入部分函数API"></a>载入部分函数API</h4><p>由原<code>sub_40170A</code>函数实现，该函数结构为</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325192019854.png" alt="image-20210325192019854" style="zoom:80%;">
+
+<ul>
+<li>调用函数<code>sub_401A45</code>，该函数会从<code>advapi32.dll</code>载入一些Crypt开头的函数</li>
+<li>从<code>kernel32.dll</code>中载入一些文件操作函数</li>
+</ul>
+<h4 id="初始化临界区"><a href="#初始化临界区" class="headerlink" title="初始化临界区"></a>初始化临界区</h4><p>由原<code>sub_4012FD</code>函数实现，该函数结构为</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325192710504.png" alt="image-20210325192710504" style="zoom:80%;">
+
+<ul>
+<li>调用函数<code>sub_4017DD</code>，该函数会调用函数<code>InitializeCriticalSection</code></li>
+</ul>
+<p>总体来说，该函数会初始化临界区，方便多线程的访问</p>
+<h4 id="导入密钥并分配全局堆内存"><a href="#导入密钥并分配全局堆内存" class="headerlink" title="导入密钥并分配全局堆内存"></a>导入密钥并分配全局堆内存</h4><p>由原<code>sub_401437</code>函数实现，该函数结构为</p>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325193305320.png" alt="image-20210325193305320"></p>
+<ul>
+<li>调用函数<code>sub_401861</code>，该函数会调用<code>CryptImportKey</code>函数导入密钥</li>
+<li>两次调用<code>GlobalAlloc</code>，分配全局堆内存</li>
+</ul>
+<h4 id="解密数据"><a href="#解密数据" class="headerlink" title="解密数据"></a>解密数据</h4><p>由原<code>sub_4014A6</code>函数实现，重要参数为“t.wnry”，该函数部分结构为</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325194452415.png" alt="image-20210325194452415" style="zoom:67%;">
+
+<ul>
+<li>前半部分会从文件<code>t.wnry</code>中读取数据到不同变量</li>
+<li>后半部分会调用自定义函数进行处理，最后将处理后的数据保存在新分配的区域中，并返回该区域起始地址，推测该函数的作用为为解密<code>t.wnry</code>文件</li>
+</ul>
+<h4 id="加载DLL"><a href="#加载DLL" class="headerlink" title="加载DLL"></a>加载DLL</h4><p>由原<code>sub_4021BD</code>函数实现，该函数功能就是调用<code>sub_4021E9</code>函数，重要参数为此前获得的起始地址，该函数部分结构为</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210325200301166.png" alt="image-20210325200301166" style="zoom:80%;">
+
+<ul>
+<li>一系列检查工作，比如<ul>
+<li>调用函数<code>sub_402457</code>，判断解密的数据长度是否大于64</li>
+<li>判断头两个字节是否为0x5A4D，即判断头部是否是MZ</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326150754064.png" alt="image-20210326150754064"></p>
+<ul>
+<li>载入函数<code>GetNativeSystemInfo</code></li>
+</ul>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326151807231.png" alt="image-20210326151807231"></p>
+<ul>
+<li>间接调用函数<code>VirtualAlloc</code>，分配虚内存</li>
+<li>调用函数<code>HeapAlloc</code>，在进程堆上分配空间</li>
+</ul>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326153448991.png" alt="image-20210326153448991"></p>
+<ul>
+<li>该部分的代码看着有一些复杂，但其设置的变量v22会保存一些函数的地址，这些函数看起来与载入DLL密切相关，暂时结束静态分析</li>
+</ul>
+<p>综上，该部分会检查此前解密数据的结构是否为PE形式，并可能进行DLL载入工作，推测之前解密的数据为DLL文件，在该函数中进行载入。</p>
+<p>下面尝试对该DLL文件进行提取，</p>
+<ul>
+<li>在虚拟机中用Ollydebug打开样本文件，于<code>00402132</code>处下一个断点，运行后，EAX寄存器内容即为解密数据的起始地址</li>
+</ul>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326163249092.png" alt="image-20210326163249092"></p>
+<ul>
+<li><p>以下为该地址处对应的数据，可以看到明显是一个解密过后的数据，其中MZ和PE更确定是PE文件格式</p>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326163513527.png" alt="image-20210326163513527"></p>
+</li>
+<li><p>设断点于<code>0040213A</code>，截获解密后的数据长度为0x10000</p>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326165428529.png" alt="image-20210326165428529"></p>
+</li>
+<li><p>重新运行该函数，dump出解密后的数据，保存为<code>t.dll</code>，使用PEiD检查，发现确实是DLL文件</p>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326172626167.png" alt="image-20210326172626167"></p>
+</li>
+<li><p>检查该文件输出函数，发现一个<code>TaskStart</code></p>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326172741044.png" alt="image-20210326172741044"></p>
+</li>
+</ul>
+<p>之前猜想得以证明</p>
+<h4 id="从DLL中导入函数TaskStart并执行"><a href="#从DLL中导入函数TaskStart并执行" class="headerlink" title="从DLL中导入函数TaskStart并执行"></a>从DLL中导入函数TaskStart并执行</h4><p>由由原<code>sub_4021BD</code>函数实现，该函数主要参数为之前获得的DLL在堆中的地址和字符串‘TaskStart’，内部结构如下</p>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210326173440743.png" alt="image-20210326173440743"></p>
+<ul>
+<li>该函数会在DLL数据内与字符串’TaskStart’进行比较</li>
+<li>结合之前看到DLL的输出函数为TaskStart，合理推测该函数的作用是获取<code>TaskStart</code>函数的地址</li>
+</ul>
+<p>在这一函数结束后，会有以函数形式执行返回值的操作，合理推测为执行<code>TaskStart</code></p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>恶意程序样本主要完成以下工作</p>
+<ul>
+<li>修改注册表项</li>
+<li>将资源节中以zip形式压缩的文件释放，解压密码为‘WNcry@2ol7’</li>
+<li>将比特币账户信息写入文件<code>c.wnry</code></li>
+<li>将文件<code>t.wnry</code>解密后形成的DLL载入，执行其中的TaskStart函数</li>
+</ul>
+<h3 id="恶意DLL与TaskStart函数"><a href="#恶意DLL与TaskStart函数" class="headerlink" title="恶意DLL与TaskStart函数"></a>恶意DLL与TaskStart函数</h3><p>用IDA查看之前提取出的<code>t.dll</code>中的<code>TaskStart</code>函数，其主要部分如下所示</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210327100712464.png" alt="image-20210327100712464" style="zoom:80%;">
+
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210327100743585.png" alt="image-20210327100743585" style="zoom:80%;">
+
+<p>经过分析后可参考如下</p>
+<p>下面开始逐步分析</p>
+<h4 id="创建互斥体"><a href="#创建互斥体" class="headerlink" title="创建互斥体"></a>创建互斥体</h4><p>由原<code>sub_4021BD</code>函数实现，该函数结构如下</p>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210327100937542.png" alt="image-20210327100937542"></p>
+<ul>
+<li>创建名为<code>MsWinZonesCacheCounterMutexA</code>的互斥体</li>
+</ul>
+<p>如果之前已经存在该互斥体，则程序结束，确保单一实例运行。</p>
+<h4 id="读取c-wnry"><a href="#读取c-wnry" class="headerlink" title="读取c.wnry"></a>读取c.wnry</h4><p>由原<code>sub_10001000</code>函数实现，该函数结构如下</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210327101922203.png" alt="image-20210327101922203" style="zoom:80%;">
+
+<ul>
+<li>当参数a2=1时，会读取文件<code>c.wnry</code>到Buffer中</li>
+</ul>
+<h4 id="获取部分函数API"><a href="#获取部分函数API" class="headerlink" title="获取部分函数API"></a>获取部分函数API</h4><p>由原<code>sub_10003410</code>函数实现，该函数结构较简单，会载入<code>kernel32.dll</code>中的部分函数，主要和文件操作有关</p>
+<h4 id="检查互斥体和文件"><a href="#检查互斥体和文件" class="headerlink" title="检查互斥体和文件"></a>检查互斥体和文件</h4><p>由原<code>sub_10003410</code>函数和<code>sub_10004500</code>函数实现</p>
+<p>在函数<code>sub_10003410</code>函数中</p>
+<ul>
+<li>尝试打开互斥体<code>Global\MsWinZonesCacheCounterMutexW</code></li>
+<li>没有则创建并检查互斥体<code>Global\MsWinZonesCacheCounterMutexA0</code>，并调用函数<code>sub_100013E0</code>设置属性</li>
+</ul>
+<p>在函数<code>sub_10004500</code>函数中</p>
+<ul>
+<li>检查是否存在文件<code>00000000.dky</code></li>
+</ul>
+<p>结合之后的分析可知，该互斥体是表示加密准备工作是否已完成的</p>
+<h4 id="保存密钥"><a href="#保存密钥" class="headerlink" title="保存密钥"></a>保存密钥</h4><p>由原<code>sub_10003AC0</code>函数实现，该函数传入的两个重要参数分别为两个此前分别写入<code>00000000.pky</code>和<code>00000000.eky</code>的串，结构可参考如下</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210327104944373.png" alt="image-20210327104944373" style="zoom:80%;">
+
+<ul>
+<li>调用函数<code>sub_10003A80</code>，该函数会调用<code>CryptAcquireContextA</code>，获取加密所需密钥容器的csp的句柄</li>
+<li>调用函数<code>sub_10003C00</code>，该函数会尝试打开文件<code>00000000.pky</code>并载入文件，从调用的函数来看与密钥有关，由于第一次使用时不存在该文件，返回值为0，会进入该选择段</li>
+<li>调用函数<code>sub_10004350</code>，该函数会调用<code>CryptGenKey</code>，可以按照指定算法生成密钥，暂时没找到参数和算法的对应关系，但据其他报告说明是RSA。该密钥实际上包含公钥和私钥，下面称为pk和ek。</li>
+<li>调用函数<code>sub_10004350</code>，该函数会创建文件<code>00000000.pky</code>并导出pk到该文件</li>
+<li>调用函数<code>sub_10003C40</code>，该函数会将ek加密，然后存放在文件<code>00000000.eky</code></li>
+</ul>
+<p>分析完成后结构可参考如下</p>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210327130256949.png" alt="image-20210327130256949"></p>
+<p>接下来会创建5个线程</p>
+<h4 id="创建线程1：创建00000000-res文件"><a href="#创建线程1：创建00000000-res文件" class="headerlink" title="创建线程1：创建00000000.res文件"></a>创建线程1：创建00000000.res文件</h4><p>该线程会调用原函数<code>sub_10004790</code>，该函数结构如下</p>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210328095316358.png" alt="image-20210328095316358"></p>
+<ul>
+<li>调用函数<code>time</code>记录当前时间</li>
+<li>调用函数<code>sub_10004730</code>，该函数会创建文件<code>00000000.res</code>(文件名在<code>TaskStart</code>函数中赋值)并往其中写入数据</li>
+<li>睡眠一段时间再循环</li>
+</ul>
+<h4 id="创建线程2：检查文件"><a href="#创建线程2：检查文件" class="headerlink" title="创建线程2：检查文件"></a>创建线程2：检查文件</h4><p>该线程会调用原函数<code>sub_100045C0</code>，该函数结构如下</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210328100831958.png" alt="image-20210328100831958" style="zoom:80%;">
+
+<ul>
+<li>检查dky文件是否存在</li>
+<li>睡眠一段时间</li>
+</ul>
+<h4 id="创建线程3：检测磁盘并加密"><a href="#创建线程3：检测磁盘并加密" class="headerlink" title="创建线程3：检测磁盘并加密"></a>创建线程3：检测磁盘并加密</h4><p>该线程会调用原函数<code>sub_10005730</code>，该函数结构如下</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210328101721963.png" alt="image-20210328101721963" style="zoom:80%;">
+
+<ul>
+<li>调用函数<code>GetLogicalDrives</code>获取所有磁盘信息</li>
+<li>在循环体中调用函数<code>GetLogicalDrives</code>，检测是否有新磁盘加入，如果有则创建新线程加密新磁盘，该线程会调用原函数<code>sub_10005680</code>，检查该函数</li>
+</ul>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210328103332749.png" alt="image-20210328103332749" style="zoom:80%;">
+
+<ul>
+<li><p>调用函数<code>sub_10001590</code>，该函数会初始化临界区</p>
+</li>
+<li><p>调用函数<code>sub_10001830</code></p>
+</li>
+<li><p>调用函数<code>sub_10005540</code>，该函数可以获取某磁盘空余容量，并在判断磁盘类型为固定磁盘后。调用函数<code>sub_100027F0</code>对该磁盘下所有文件进行加密</p>
+</li>
+</ul>
+<h4 id="创建线程4：启动taskdl-exe"><a href="#创建线程4：启动taskdl-exe" class="headerlink" title="创建线程4：启动taskdl.exe"></a>创建线程4：启动taskdl.exe</h4><p>该线程会调用原函数<code>sub_10005300</code>，该函数会循环调用函数<code>sub_10001080</code>，<code>sub_10001080</code>的重要参数为字符串’taskdl.exe’，其结构如下</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210328104452000.png" alt="image-20210328104452000" style="zoom:80%;">
+
+<ul>
+<li>该函数作用明显为启动<code>taskdl.exe</code>线程，注意其中StartupInfo结构中dwFlags值为1，表示隐藏窗口启动</li>
+</ul>
+<h4 id="创建线程5：启动taskse-exe和-WanaDecryptor-exe，安装注册表启动项"><a href="#创建线程5：启动taskse-exe和-WanaDecryptor-exe，安装注册表启动项" class="headerlink" title="创建线程5：启动taskse.exe和@WanaDecryptor@.exe，安装注册表启动项"></a>创建线程5：启动taskse.exe和@WanaDecryptor@.exe，安装注册表启动项</h4><p>该线程会调用原函数<code>sub_10004990</code>，该函数结构如下</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210328105114066.png" alt="image-20210328105114066" style="zoom:80%;">
+
+<ul>
+<li>调用函数<code>Readcwnry</code>，注意此时第二个参数为0，表示写入数据</li>
+<li>调用函数<code>sub_10004890</code>，该函数会启动<code>taskse.exe</code>和<code>@WanaDecryptor@.exe</code>，注意也是隐藏方式启动</li>
+<li>获取<code>tasksche.exe</code>文件完整路径，保存到Buffer</li>
+<li>调用函数<code>sub_100047F0</code>，该函数会调用cmd修改注册表<code>HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</code>项，安装tasksche.exe启动项</li>
+</ul>
+<p>启动项如下所示</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210329134040661.png" alt="image-20210329134040661" style="zoom:80%;">
+
+<h4 id><a href="#" class="headerlink" title></a></h4><h3 id="文件加密过程分析"><a href="#文件加密过程分析" class="headerlink" title="文件加密过程分析"></a>文件加密过程分析</h3><h4 id="加密函数1"><a href="#加密函数1" class="headerlink" title="加密函数1"></a>加密函数1</h4><p>由原函数<code>sub_100027F0</code>函数实现，该层加密函数主要起过渡作用，会调用<code>sub_10002300</code>函数和<code>sub_10002940</code>函数进行加密，结构如下</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210404093355277.png" alt="image-20210404093355277" style="zoom:67%;">
+
+<h4 id="加密函数2"><a href="#加密函数2" class="headerlink" title="加密函数2"></a>加密函数2</h4><p>由原函数<code>sub_10002300</code>函数实现，该函数结构将分步分析</p>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210404130703678.png" alt="image-20210404130703678"></p>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210404130723104.png" alt="image-20210404130723104"></p>
+<ul>
+<li>会循环查找目录下的文件，每个循环首先会判断其是否是当前目录或父目录文件，如果不是则继续</li>
+<li>获取目标文件完整路径，保存到Buffer，判断该文件不是目录文件后继续</li>
+<li>调用函数sub_100032C0，判断其是否是某些敏感文件，比如<code>ProgramData</code>目录下的文件，防止加密这些文件后影响系统</li>
+<li>对于非敏感文件，判断其是否是病毒自带的三个资源文件，这是用来提示受害者的，如果不是则继续</li>
+<li>调用函数sub_10002D60，该函数会对文件的后缀名做比较以选择是否要加密该文件，其结构如下</li>
+</ul>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210404131641809.png" alt="image-20210404131641809" style="zoom:67%;">
+
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210404131716931.png" alt="image-20210404131716931" style="zoom:67%;">
+
+<ul>
+<li>该函数首先过滤.exe和.dll文件，如果是则返回1</li>
+<li>过滤.WNCRY文件，如果是则返回6</li>
+<li>若文件后缀在以下字符串中，则返回2</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.doc .docx .xls .xlsx .ppt .pptx .pst .ost .msg .eml .vsd .vsdx .txt .csv .rtf .123 .wks .wk1 .pdf .dwg .onetoc2 .snt .jpeg .jpg</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>若文件后缀在以下字符串中，则返回3</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.docb .docm .dot .dotm .dotx .xlsm .xlsb .xlw .xlt .xlm .xlc .xltx .xltm .pptm</span><br><span class="line">.pot .pps .ppsm .ppsx .ppam .potx .potm .edb .hwp .602 .sxi .sti .sldx .sldm .sldm .vdi .vmdk .vmx .gpg .aes .ARC .PAQ .bz2 .tbk .bak .tar .tgz .gz .7z .rar .zip .backup .iso .vcd .bmp .png .gif .raw .cgm .tif .tiff .nef .psd .ai .svg .djvu .m4u .m3u .mid .wma .flv .3g2 .mkv .3gp .mp4 .mov .avi .asf .mpeg .vob .mpg .wmv .fla .swf .wav .mp3 .sh .class .jar .java .rb .asp .php .jsp .brd .sch .dch .dip .pl .vb .vbs .ps1 .bat .cmd .js .asm .h .pas .cpp .c .cs .suo .sln .ldf .mdf .ibd .myi .myd .frm .odb .dbf .db .mdb .accdb .sql .sqlitedb .sqlite3 .asc .lay6 .lay .mml .sxm .otg .odg .uop .std .sxd .otp .odp .wb2 .slk .dif .stc .sxc .ots .ods .3dm .max .3ds .uot .stw .sxw .ott .odt .pem .p12 .csr .crt .key .pfx .der</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>若文件后缀为.WNCYR则返回5</li>
+<li>若文件后缀为.WNCRYT则返回4</li>
+<li>回到加密函数2，对于返回值为2，3，4，5的文件，调用函数<code>sub_10003760</code>将该文件路径和返回值类型保存到链表数据结构中，循环查询所有文件</li>
+</ul>
+<p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210404133908035.png" alt="image-20210404133908035"></p>
+<ul>
+<li>对于路径保存到链表中的文件，根据其返回值调用函数<code>sub_10002940</code>进行加密，该函数为加密函数3，会在之后进行详细说明</li>
+<li>此后会根据当前文件层数递归调用加密函数2，实现对所有目录项的遍历</li>
+</ul>
+<h4 id="加密函数3"><a href="#加密函数3" class="headerlink" title="加密函数3"></a>加密函数3</h4><p>由原函数<code>sub_10002940</code>函数实现，该函数结构如下</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210404135053832.png" alt="image-20210404135053832" style="zoom:67%;">
+
+<ul>
+<li><p>该函数首先调用函数<code>sub_10002E70</code>判断待加密文件类型决定策略</p>
+<p>函数<code>sub_10002E70</code>的返回值可参考如下</p>
+<ul>
+<li>对于后缀为.WNCRYT，返回2</li>
+<li>对于后缀为.WNCYR，返回1</li>
+<li>对于之前判断为类型3的文件，比如后缀为.docx，返回4</li>
+</ul>
+</li>
+<li><p>策略对应为</p>
+<ul>
+<li>2：删除文件</li>
+<li>3：调用加密函数<code>sub_10002200</code>加密链表中所有文件</li>
+<li>4：加密可能剩余链表中的文件</li>
+</ul>
+</li>
+</ul>
+<h4 id="加密函数4"><a href="#加密函数4" class="headerlink" title="加密函数4"></a>加密函数4</h4><p>由原函数<code>sub_10002940</code>函数实现，该函数结构如下</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210404142530858.png" alt="image-20210404142530858" style="zoom:67%;">
+
+<ul>
+<li>获取文件名字符串，在其后拼接.WNCRY</li>
+<li>调用函数<code>sub_10001960</code>进行加密</li>
+</ul>
+<h4 id="加密函数5"><a href="#加密函数5" class="headerlink" title="加密函数5"></a>加密函数5</h4><p>由原函数<code>sub_10001960</code>函数实现，该函数结构比较复杂，会分步分析</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210405105224751.png" alt="image-20210405105224751" style="zoom:67%;">
+
+<ul>
+<li>经过一系列操作正确打开文件后，获取文件的大小和时间</li>
+<li>读取文件开始8个字节，与’WANACRY!’比较，这一判断是为验证文件是否已经被加密了</li>
+</ul>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210405105606047.png" alt="image-20210405105606047" style="zoom:67%;">
+
+<ul>
+<li>在文件名背后加‘T’，创建该文件，该文件此时后缀应为.WNCRYT</li>
+</ul>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210405110708477.png" alt="image-20210405110708477" style="zoom:67%;">
+
+<ul>
+<li>写入加密文件头，分别为<ul>
+<li>写入8字节“WANACRY!”</li>
+<li>写入4字节</li>
+<li>写入0x100字节的加密数据，v17在之前获得</li>
+<li>写入自定义的文件类型值</li>
+<li>写入原文件大小</li>
+</ul>
+</li>
+</ul>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210405111147513.png" alt="image-20210405111147513" style="zoom:67%;">
+
+<ul>
+<li>循环读取原文件内容，每次读取0x100000个字节</li>
+<li>调用函数<code>sub_10006940</code>对读取的内容进行加密，注意到参数v12一般对应值为0x10，这意味着在该函数中是以每0x10个字节为单位加密文件的</li>
+<li>将加密的内容写入之前创建的加密文件内</li>
+</ul>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210405112241501.png" alt="image-20210405112241501" style="zoom:67%;">
+
+<ul>
+<li>设置文件时间、文件属性，将原文件加入删除列表</li>
+</ul>
+<h4 id="加密过程总结"><a href="#加密过程总结" class="headerlink" title="加密过程总结"></a>加密过程总结</h4><p><img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210405135139721.png" alt="image-20210405135139721"></p>
+<p>部分可能的恢复方案</p>
+<ul>
+<li>由于勒索软件采用Windows的csp的API，产生密钥所用的素数可能遗留在内存中，如果未被覆盖，则存在截取并产生相同密钥的可能</li>
+<li>只读文件由于不会被修改重命名，实际上不会被删除，只会调整属性为隐藏</li>
+<li>部分系统盘符下特定目录下的的文件存在覆写操作，可能无法恢复</li>
+<li>对于加密的文件，实际上原文件并未被立刻删除，而是被重命名后移动到对应盘符下创建的临时目录下，调用删除线程删除。</li>
+</ul>
+<h3 id="taskdl-exe分析"><a href="#taskdl-exe分析" class="headerlink" title="taskdl.exe分析"></a>taskdl.exe分析</h3><p>该程序会在之前TaskStart函数创建的第四个线程中被启动，其主函数结构如下</p>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210329125117408.png" alt="image-20210329125117408" style="zoom:67%;">
+
+<ul>
+<li>获取当前可用磁盘</li>
+<li>获得当前磁盘类型，不可是远程磁盘（对应4）</li>
+<li>调用函数<code>sub_401080</code>，该函数结构如下所示</li>
+</ul>
+<img src="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/image-20210329125715150.png" alt="image-20210329125715150" style="zoom:67%;">
+
+<ul>
+<li>调用函数<code>sub_401000</code>，保存回收站和C盘下临时文件路径</li>
+<li>拼接字符串，在前一路径后拼接上<code>*.WNCRYT</code>，保存到Buffer</li>
+<li>遍历Buffer形式的文件，即后缀为WNCRYT的文件，获取其全路径保存到</li>
+</ul>
+<h3 id="WanaDecryptor-exe分析"><a href="#WanaDecryptor-exe分析" class="headerlink" title="@WanaDecryptor@.exe分析"></a>@WanaDecryptor@.exe分析</h3><p>尚未详细分析，单独运行结果是会生成壁纸，并且每几秒弹出勒索窗口</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/16/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A%E9%98%85%E8%AF%BB%E8%AE%B0%E5%BD%95/" rel="next" title="勒索软件分析报告阅读记录">
+                <i class="fa fa-chevron-left"></i> 勒索软件分析报告阅读记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/04/06/%E6%B0%B8%E6%81%92%E4%B9%8B%E8%93%9D%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8/" rel="prev" title="永恒之蓝漏洞利用">
+                永恒之蓝漏洞利用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7Carchive">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B7%E6%9C%AC%E8%BF%90%E8%A1%8C"><span class="nav-number">1.</span> <span class="nav-text">样本运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text">详细分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B7%E6%9C%ACexe%E7%A8%8B%E5%BA%8F"><span class="nav-number">2.1.</span> <span class="nav-text">样本exe程序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#main%E5%87%BD%E6%95%B0"><span class="nav-number">2.1.1.</span> <span class="nav-text">main函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E6%B3%A8%E5%86%8C%E8%A1%A8%E9%A1%B9"><span class="nav-number">2.1.2.</span> <span class="nav-text">修改注册表项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8A%E6%94%BE%E8%B5%84%E6%BA%90%E8%8A%82%E5%88%B0%E6%96%87%E4%BB%B6"><span class="nav-number">2.1.3.</span> <span class="nav-text">释放资源节到文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%99%E5%85%A5%E6%AF%94%E7%89%B9%E5%B8%81%E8%B4%A6%E6%88%B7%E4%BF%A1%E6%81%AF"><span class="nav-number">2.1.4.</span> <span class="nav-text">写入比特币账户信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%90%E8%97%8F%E5%BD%93%E5%89%8D%E6%96%87%E4%BB%B6%E5%A4%B9%E5%92%8C%E5%88%9B%E5%BB%BA%E8%B4%A6%E6%88%B7"><span class="nav-number">2.1.5.</span> <span class="nav-text">隐藏当前文件夹和创建账户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%BD%E5%85%A5%E9%83%A8%E5%88%86%E5%87%BD%E6%95%B0API"><span class="nav-number">2.1.6.</span> <span class="nav-text">载入部分函数API</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%B4%E7%95%8C%E5%8C%BA"><span class="nav-number">2.1.7.</span> <span class="nav-text">初始化临界区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E5%AF%86%E9%92%A5%E5%B9%B6%E5%88%86%E9%85%8D%E5%85%A8%E5%B1%80%E5%A0%86%E5%86%85%E5%AD%98"><span class="nav-number">2.1.8.</span> <span class="nav-text">导入密钥并分配全局堆内存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%AF%86%E6%95%B0%E6%8D%AE"><span class="nav-number">2.1.9.</span> <span class="nav-text">解密数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BDDLL"><span class="nav-number">2.1.10.</span> <span class="nav-text">加载DLL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%8EDLL%E4%B8%AD%E5%AF%BC%E5%85%A5%E5%87%BD%E6%95%B0TaskStart%E5%B9%B6%E6%89%A7%E8%A1%8C"><span class="nav-number">2.1.11.</span> <span class="nav-text">从DLL中导入函数TaskStart并执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.1.12.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%81%B6%E6%84%8FDLL%E4%B8%8ETaskStart%E5%87%BD%E6%95%B0"><span class="nav-number">2.2.</span> <span class="nav-text">恶意DLL与TaskStart函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%BA%92%E6%96%A5%E4%BD%93"><span class="nav-number">2.2.1.</span> <span class="nav-text">创建互斥体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%BB%E5%8F%96c-wnry"><span class="nav-number">2.2.2.</span> <span class="nav-text">读取c.wnry</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E9%83%A8%E5%88%86%E5%87%BD%E6%95%B0API"><span class="nav-number">2.2.3.</span> <span class="nav-text">获取部分函数API</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E4%BA%92%E6%96%A5%E4%BD%93%E5%92%8C%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.4.</span> <span class="nav-text">检查互斥体和文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E5%AF%86%E9%92%A5"><span class="nav-number">2.2.5.</span> <span class="nav-text">保存密钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B1%EF%BC%9A%E5%88%9B%E5%BB%BA00000000-res%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.6.</span> <span class="nav-text">创建线程1：创建00000000.res文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B2%EF%BC%9A%E6%A3%80%E6%9F%A5%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.7.</span> <span class="nav-text">创建线程2：检查文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B3%EF%BC%9A%E6%A3%80%E6%B5%8B%E7%A3%81%E7%9B%98%E5%B9%B6%E5%8A%A0%E5%AF%86"><span class="nav-number">2.2.8.</span> <span class="nav-text">创建线程3：检测磁盘并加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B4%EF%BC%9A%E5%90%AF%E5%8A%A8taskdl-exe"><span class="nav-number">2.2.9.</span> <span class="nav-text">创建线程4：启动taskdl.exe</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B5%EF%BC%9A%E5%90%AF%E5%8A%A8taskse-exe%E5%92%8C-WanaDecryptor-exe%EF%BC%8C%E5%AE%89%E8%A3%85%E6%B3%A8%E5%86%8C%E8%A1%A8%E5%90%AF%E5%8A%A8%E9%A1%B9"><span class="nav-number">2.2.10.</span> <span class="nav-text">创建线程5：启动taskse.exe和@WanaDecryptor@.exe，安装注册表启动项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">2.2.11.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%8A%A0%E5%AF%86%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90"><span class="nav-number">2.3.</span> <span class="nav-text">文件加密过程分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E5%87%BD%E6%95%B01"><span class="nav-number">2.3.1.</span> <span class="nav-text">加密函数1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E5%87%BD%E6%95%B02"><span class="nav-number">2.3.2.</span> <span class="nav-text">加密函数2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E5%87%BD%E6%95%B03"><span class="nav-number">2.3.3.</span> <span class="nav-text">加密函数3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E5%87%BD%E6%95%B04"><span class="nav-number">2.3.4.</span> <span class="nav-text">加密函数4</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E5%87%BD%E6%95%B05"><span class="nav-number">2.3.5.</span> <span class="nav-text">加密函数5</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E8%BF%87%E7%A8%8B%E6%80%BB%E7%BB%93"><span class="nav-number">2.3.6.</span> <span class="nav-text">加密过程总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#taskdl-exe%E5%88%86%E6%9E%90"><span class="nav-number">2.4.</span> <span class="nav-text">taskdl.exe分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WanaDecryptor-exe%E5%88%86%E6%9E%90"><span class="nav-number">2.5.</span> <span class="nav-text">@WanaDecryptor@.exe分析</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "./public/search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
