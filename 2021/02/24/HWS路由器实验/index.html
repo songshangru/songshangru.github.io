@@ -81,15 +81,15 @@
 
 
 
-<meta name="description" content="固件解密D-Link Dir-882固件 对于固件v1.20b06，binwalk无法探测，可以考虑分析旧版本固件尝试解密新版本固件 找到固件v1.10b02 ，是过渡版本，其中有文件DIR882A1_FW104B02_Middle_FW_Unencrypt.bin，是未加密的，使用binwalk探测 123456$ binwalk DIR882A1_FW104B02_Middle_FW_Unen">
+<meta name="description" content="冬令营的路由器实验">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HWS路由器实验">
 <meta property="og:url" content="http://example.com/2021/02/24/HWS%E8%B7%AF%E7%94%B1%E5%99%A8%E5%AE%9E%E9%AA%8C/index.html">
 <meta property="og:site_name" content="青晷">
-<meta property="og:description" content="固件解密D-Link Dir-882固件 对于固件v1.20b06，binwalk无法探测，可以考虑分析旧版本固件尝试解密新版本固件 找到固件v1.10b02 ，是过渡版本，其中有文件DIR882A1_FW104B02_Middle_FW_Unencrypt.bin，是未加密的，使用binwalk探测 123456$ binwalk DIR882A1_FW104B02_Middle_FW_Unen">
+<meta property="og:description" content="冬令营的路由器实验">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-02-24T02:19:40.000Z">
-<meta property="article:modified_time" content="2021-02-24T02:38:51.245Z">
+<meta property="article:modified_time" content="2021-10-11T02:45:22.139Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 
@@ -370,7 +370,10 @@
       
 
       
-        <h2 id="固件解密"><a href="#固件解密" class="headerlink" title="固件解密"></a>固件解密</h2><p>D-Link Dir-882固件</p>
+        <p>冬令营的路由器实验</p>
+<a id="more"></a>
+
+<h2 id="固件解密"><a href="#固件解密" class="headerlink" title="固件解密"></a>固件解密</h2><p>D-Link Dir-882固件</p>
 <p>对于固件v1.20b06，binwalk无法探测，可以考虑分析旧版本固件尝试解密新版本固件</p>
 <p>找到固件v1.10b02 ，是过渡版本，其中有文件<code>DIR882A1_FW104B02_Middle_FW_Unencrypt.bin</code>，是未加密的，使用binwalk探测</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ binwalk DIR882A1_FW104B02_Middle_FW_Unencrypt.bin</span><br><span class="line"></span><br><span class="line">DECIMAL       HEXADECIMAL     DESCRIPTION</span><br><span class="line">--------------------------------------------------------------------------------</span><br><span class="line">0             0x0             uImage header, header size: 64 bytes, header CRC: 0x50982AB1, created: 2018-03-11 13:18:48, image size: 13265102 bytes, Data Address: 0x81001000, Entry Point: 0x816118E0, data CRC: 0x3A2AC829, OS: Linux, CPU: MIPS, image <span class="built_in">type</span>: OS Kernel Image, compression <span class="built_in">type</span>: lzma, image name: <span class="string">&quot;Linux Kernel Image&quot;</span></span><br><span class="line">160           0xA0            LZMA compressed data, properties: 0x5D, dictionary size: 33554432 bytes, uncompressed size: 18684352 bytes</span><br></pre></td></tr></table></figure>

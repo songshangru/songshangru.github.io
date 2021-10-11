@@ -81,15 +81,15 @@
 
 
 
-<meta name="description" content="Pwnemarm首先检查一下文件，是arm框架64位程序，动态链接 12345678910$ file emarmemarm: ELF 64-bit LSB executable, ARM aarch64, version 1 (SYSV), dynamically linked, interpreter &#x2F;lib&#x2F;ld-linux-aarch64.so.1, for GNU&#x2F;Linux 3.7.">
+<meta name="description" content="d尝试复现冬令营选拔赛">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HWS2021冬令营选拔赛">
 <meta property="og:url" content="http://example.com/2021/02/20/HWS2021%E5%86%AC%E4%BB%A4%E8%90%A5%E9%80%89%E6%8B%94%E8%B5%9B/index.html">
 <meta property="og:site_name" content="青晷">
-<meta property="og:description" content="Pwnemarm首先检查一下文件，是arm框架64位程序，动态链接 12345678910$ file emarmemarm: ELF 64-bit LSB executable, ARM aarch64, version 1 (SYSV), dynamically linked, interpreter &#x2F;lib&#x2F;ld-linux-aarch64.so.1, for GNU&#x2F;Linux 3.7.">
+<meta property="og:description" content="d尝试复现冬令营选拔赛">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-02-20T06:14:25.000Z">
-<meta property="article:modified_time" content="2021-02-22T12:47:23.939Z">
+<meta property="article:modified_time" content="2021-10-11T02:45:59.973Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 
@@ -370,7 +370,10 @@
       
 
       
-        <h1 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h1><h2 id="emarm"><a href="#emarm" class="headerlink" title="emarm"></a>emarm</h2><p>首先检查一下文件，是arm框架64位程序，动态链接</p>
+        <p>d尝试复现冬令营选拔赛</p>
+<a id="more"></a>
+
+<h1 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h1><h2 id="emarm"><a href="#emarm" class="headerlink" title="emarm"></a>emarm</h2><p>首先检查一下文件，是arm框架64位程序，动态链接</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ file emarm</span><br><span class="line">emarm: ELF 64-bit LSB executable, ARM aarch64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-aarch64.so.1, <span class="keyword">for</span> GNU/Linux 3.7.0, BuildID[sha1]=f5ece0eeec2355ab7660bb15b664dc68e585e62c, stripped</span><br><span class="line"></span><br><span class="line">$ checksec emarm</span><br><span class="line">[*] <span class="string">&#x27;/home/ssr/iot/hws-2021-select/emarm/emarm&#x27;</span></span><br><span class="line">    Arch:     aarch64-64-little</span><br><span class="line">    RELRO:    Partial RELRO</span><br><span class="line">    Stack:    Canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      No PIE (0x400000)</span><br></pre></td></tr></table></figure>
 
 <p>开始测试程序前需要配置一下环境，此前安装<code>qemu</code>和<code>patchelf</code></p>
