@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="看的一些勒索软件报告">
+<meta property="og:type" content="article">
+<meta property="og:title" content="勒索软件分析报告阅读记录">
+<meta property="og:url" content="http://example.com/2021/03/16/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A%E9%98%85%E8%AF%BB%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="Hyacinthum">
+<meta property="og:description" content="看的一些勒索软件报告">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/03/16/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A%E9%98%85%E8%AF%BB%E8%AE%B0%E5%BD%95/image-20210321171900462.png">
+<meta property="og:image" content="http://example.com/2021/03/16/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A%E9%98%85%E8%AF%BB%E8%AE%B0%E5%BD%95/image-20210321171836749.png">
+<meta property="article:published_time" content="2021-03-16T08:57:33.000Z">
+<meta property="article:modified_time" content="2021-10-11T04:54:49.387Z">
+<meta property="article:author" content="Hyacinthum">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/03/16/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A%E9%98%85%E8%AF%BB%E8%AE%B0%E5%BD%95/image-20210321171900462.png">
+
+<link rel="canonical" href="http://example.com/2021/03/16/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A%E9%98%85%E8%AF%BB%E8%AE%B0%E5%BD%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>勒索软件分析报告阅读记录 | Hyacinthum</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Hyacinthum" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hyacinthum</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">昼短苦夜长，何不秉烛游</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/16/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A%E9%98%85%E8%AF%BB%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hyacinthum">
+      <meta itemprop="description" content="昼短苦夜长，何不秉烛游">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hyacinthum">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          勒索软件分析报告阅读记录
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-16 16:57:33" itemprop="dateCreated datePublished" datetime="2021-03-16T16:57:33+08:00">2021-03-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-11 12:54:49" itemprop="dateModified" datetime="2021-10-11T12:54:49+08:00">2021-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>看的一些勒索软件报告</strong></p>
+<a id="more"></a>
+
+<h2 id="WannaRen"><a href="#WannaRen" class="headerlink" title="WannaRen"></a>WannaRen</h2><p>2020.04</p>
+<h2 id="Egregor"><a href="#Egregor" class="headerlink" title="Egregor"></a>Egregor</h2><p>2020.09</p>
+<h3 id="分发方法"><a href="#分发方法" class="headerlink" title="分发方法"></a>分发方法</h3><p>主要是<strong>Cobalt Strike</strong>，通过诸如RDP攻击、网络钓鱼等方式破坏目标环境，一旦Cobalt Strike信标有效负载建立并持续存在，就可以交付和启动有效负载。</p>
+<p>因为Egregor是一个拥有多个分支机构的RaaS（勒索软件即服务），不同攻击者采用的攻击方式和武器化策略会有不同。</p>
+<h3 id="有效负载"><a href="#有效负载" class="headerlink" title="有效负载"></a>有效负载</h3><p>Egregor有效负载（DLL）是高度模糊的，包括Salsa20加密配置数据。</p>
+<p>文件加密通过ChaCha流密码和RSA的组合实现。</p>
+<p>每个有效负载包含一个RSA-2048公钥。基于DLL的有效负载在启动时需要一个密钥/密码，该密钥特定于每个样本。</p>
+<p>数据溢出的主要方法似乎是<code>Rclone</code></p>
+<h3 id="Post-Compromise行为"><a href="#Post-Compromise行为" class="headerlink" title="Post-Compromise行为"></a>Post-Compromise行为</h3><p>Egregor会在受害者不遵守赎金要求的情况下将泄露的数据发布到自己的博客上</p>
+<p>其赎金记录遵循一个模板，指示受害者访问其基于TOR的支付门户以获取进一步的指示</p>
+<p>每个赎金票据的底部还有一个加密的blob，其中包含受害者特定的系统数据以及已编码的RSA公钥。</p>
+<p><a target="_blank" rel="noopener" href="https://labs.sentinelone.com/egregor-raas-continues-the-chaos-with-cobalt-strike-and-rclone/">Egregor勒索软件简要分析报告</a></p>
+<h2 id="BleachGap"><a href="#BleachGap" class="headerlink" title="BleachGap"></a>BleachGap</h2><p>2021.02</p>
+<p>具备添加自启动、添加计划任务、改写MBR、使键盘按键失效、通过可移动介质传播等多项功能</p>
+<p>采用AES-256对称加密算法加密文件</p>
+<p>攻击流程如下所示</p>
+<img src="/2021/03/16/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A%E9%98%85%E8%AF%BB%E8%AE%B0%E5%BD%95/image-20210321171900462.png" alt="image-20210321171900462" style="zoom:67%;">
+
+<p>bat行为</p>
+<ul>
+<li>删除系统卷影，防止恢复加密文件</li>
+<li>修改注册表，绕过UAC机制，关闭安全警告</li>
+<li>互换鼠标左右键，键盘按键失效</li>
+<li>结束浏览器进程，结束任务管理器，创建计划任务，实现登陆时运行</li>
+<li>调用aescrypt.exe，加密部分文件</li>
+<li>生成勒索信</li>
+<li>调用DiscordSendWebhook.exe，将用户名、加密密钥、个人ID等信息发送到攻击者创建的Discord频道</li>
+<li>下载恶意代码，创建计划任务，每五天运行一次，会改写MBR，在开机时锁定计算机</li>
+<li>在每个磁盘根目录下创建autorun.inf文件，而且可以感染U盘，即使重装系统后，再打开其他硬盘又会激活病毒</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/P-mDJtc8rhveY9yMQyloHA"><strong>安天智甲有效防护 BleachGap 勒索软件</strong></a></p>
+<h2 id="ProLock"><a href="#ProLock" class="headerlink" title="ProLock"></a>ProLock</h2><p>2020.04</p>
+<p>将恶意shellcode嵌入到名为“WinMgr.bmp”的BMP图像文件中，通过混淆的PowerShell代码将图像中的代码注入到内存中运行。勒索软件执行后，加密计算机上的文件。</p>
+<p>推测为PwndLocker勒索软件变种</p>
+<img src="/2021/03/16/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A%E9%98%85%E8%AF%BB%E8%AE%B0%E5%BD%95/image-20210321171836749.png" alt="image-20210321171836749" style="zoom:67%;">
+
+<p>共包含4个文件</p>
+<ul>
+<li>run.bat</li>
+<li>clean.bat</li>
+<li>WinMgr.xml</li>
+<li>WinMgr.bmp</li>
+</ul>
+<p>行为</p>
+<ul>
+<li>从run.bat脚本文件启动，创建Windows任务并用WinMgr.xml进行配置</li>
+<li>执行clean.bat脚本，然后执行Base64编码的Powshell脚本，从WinMgr.bmp中提取出可执行文件并加载到内存中</li>
+<li>为了顺利加密文件，调用cmd执行命令停止大量服务</li>
+<li>使用“AES+RSA”加密算法加密文件，删除卷影副本防止恢复加密文件</li>
+<li>加密计算机文件后会在原文件名后追加“.proLock”后缀</li>
+<li>生成勒索信</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://news.sophos.com/en-us/2020/07/27/prolock-ransomware-gives-you-the-first-8-kilobytes-of-decryption-for-free/">ProLock ransomware gives you the first 8 kilobytes of decryption for free</a></p>
+<h2 id="NetWalker"><a href="#NetWalker" class="headerlink" title="NetWalker"></a>NetWalker</h2><p>2019</p>
+<p>攻击者不断研究复杂的方式逃避检测，其中一种攻击方式是利用了反射动态链接库（DLL）注入的技术，也称reflective DLL加载</p>
+<p>脚本行为分析</p>
+<ul>
+<li>脚本进行了多层加密、混淆、编码<ul>
+<li>最顶层为base64编码</li>
+<li>下一层是十六进制编码XOR加密</li>
+<li>解密后仍有一定程度混淆</li>
+</ul>
+</li>
+<li>勒索软件以十六进制嵌入脚本，脚本会将其解码产生两个DLL，根据环境判断使用的DLL脚本</li>
+<li>将恶意DLL以反射方式注入到进程explorer.exe中</li>
+</ul>
+<p>软件分析</p>
+<ul>
+<li>使用6个随机字符作为扩展名重命名加密文件</li>
+<li>添加注册表项</li>
+<li>终止某些进程与服务（比如数据备份、安全等相关的进程）</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/research/20/e/netwalker-fileless-ransomware-injected-via-reflective-loading.html">Reflective Loading Runs Netwalker Fileless Ransomware</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/14/%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E5%AE%9E%E6%88%98lab%E8%AE%B0%E5%BD%95/" rel="prev" title="恶意代码分析实战lab记录">
+      <i class="fa fa-chevron-left"></i> 恶意代码分析实战lab记录
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/23/wannacry%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/" rel="next" title="Wannacry勒索病毒分析">
+      Wannacry勒索病毒分析 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#WannaRen"><span class="nav-number">1.</span> <span class="nav-text">WannaRen</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Egregor"><span class="nav-number">2.</span> <span class="nav-text">Egregor</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%8F%91%E6%96%B9%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">分发方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E6%95%88%E8%B4%9F%E8%BD%BD"><span class="nav-number">2.2.</span> <span class="nav-text">有效负载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Post-Compromise%E8%A1%8C%E4%B8%BA"><span class="nav-number">2.3.</span> <span class="nav-text">Post-Compromise行为</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BleachGap"><span class="nav-number">3.</span> <span class="nav-text">BleachGap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ProLock"><span class="nav-number">4.</span> <span class="nav-text">ProLock</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NetWalker"><span class="nav-number">5.</span> <span class="nav-text">NetWalker</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hyacinthum</p>
+  <div class="site-description" itemprop="description">昼短苦夜长，何不秉烛游</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hyacinthum</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

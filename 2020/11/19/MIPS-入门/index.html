@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="要学习IOT逆向，准备入手的思科路由器是MIPS架构，在开始动手前先熟悉一下MIPS相关基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MIPS-入门">
+<meta property="og:url" content="http://example.com/2020/11/19/MIPS-%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="Hyacinthum">
+<meta property="og:description" content="要学习IOT逆向，准备入手的思科路由器是MIPS架构，在开始动手前先熟悉一下MIPS相关基础">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-19T05:21:53.000Z">
+<meta property="article:modified_time" content="2020-11-23T13:00:11.244Z">
+<meta property="article:author" content="Hyacinthum">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2020/11/19/MIPS-%E5%85%A5%E9%97%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>MIPS-入门 | Hyacinthum</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Hyacinthum" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hyacinthum</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">昼短苦夜长，何不秉烛游</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/19/MIPS-%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Hyacinthum">
+      <meta itemprop="description" content="昼短苦夜长，何不秉烛游">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hyacinthum">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MIPS-入门
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-19 13:21:53" itemprop="dateCreated datePublished" datetime="2020-11-19T13:21:53+08:00">2020-11-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-23 21:00:11" itemprop="dateModified" datetime="2020-11-23T21:00:11+08:00">2020-11-23</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>要学习IOT逆向，准备入手的思科路由器是MIPS架构，在开始动手前先熟悉一下MIPS相关基础</strong></p>
+<a id="more"></a>
+
+<h4 id="1-特点"><a href="#1-特点" class="headerlink" title="1.特点"></a>1.特点</h4><ul>
+<li>MIPS指令为固定4字节</li>
+<li>内存中的数据访问必须严格对齐</li>
+<li>本身不支持NX</li>
+<li>MIPS默认不把子函数的返回地址存放到栈中，而是存放到$ra寄存器中</li>
+</ul>
+<h4 id="2-寄存器"><a href="#2-寄存器" class="headerlink" title="2.寄存器"></a>2.寄存器</h4><table>
+<thead>
+<tr>
+<th>寄存器编号</th>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$0</td>
+<td>$zero</td>
+<td>总是返回常量0</td>
+</tr>
+<tr>
+<td>$1</td>
+<td>$at</td>
+<td>保留给汇编器，不可做其他用途</td>
+</tr>
+<tr>
+<td>$2-$3</td>
+<td>$v0-$v1</td>
+<td>函数调用返回值，非浮点</td>
+</tr>
+<tr>
+<td>$4-$7</td>
+<td>$a0-$a3</td>
+<td>函数调用参数，不够时使用堆栈传递</td>
+</tr>
+<tr>
+<td>$8-$15</td>
+<td>$t0-$t7</td>
+<td>临时寄存器</td>
+</tr>
+<tr>
+<td>$16-$23</td>
+<td>$s0-$s7</td>
+<td>保存，函数调用后这些寄存器需要被恢复</td>
+</tr>
+<tr>
+<td>$24-$25</td>
+<td>$t8-$t9</td>
+<td>临时寄存器的补充</td>
+</tr>
+<tr>
+<td>$28</td>
+<td>$gp</td>
+<td>全局指针，指向静态数据区中运行决定的地址</td>
+</tr>
+<tr>
+<td>$29</td>
+<td>$sp</td>
+<td>堆栈指针</td>
+</tr>
+<tr>
+<td>$30</td>
+<td>$fp/$s8</td>
+<td>栈帧指针</td>
+</tr>
+<tr>
+<td>$31</td>
+<td>$ra</td>
+<td>返回地址，用于支持函数调用和子程序</td>
+</tr>
+</tbody></table>
+<h4 id="3-指令集"><a href="#3-指令集" class="headerlink" title="3.指令集"></a>3.指令集</h4><p>MIPS指令长度为32位，其中指令位均为6位，其余26位可分为R型、I型、J型。常用参考指令表如下：</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>功能</th>
+<th>实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>li</td>
+<td>将一个最大16位的数立即存入寄存器</td>
+<td>li $Rd, imm</td>
+</tr>
+<tr>
+<td>lui</td>
+<td>将一个最大16位的数立即放入寄存器的高16位，低16位补0</td>
+<td>lui $a1, 0x42</td>
+</tr>
+<tr>
+<td>lw</td>
+<td>从一个指定的地址加载一个字的值到寄存器</td>
+<td>lw $s0, 0($sp)</td>
+</tr>
+<tr>
+<td>sw</td>
+<td>将寄存器中的值存入指定地址</td>
+<td>sw $a0, 0($sp)</td>
+</tr>
+<tr>
+<td>add</td>
+<td>带符号数相加，目标数存于第一个寄存器地址内</td>
+<td>add $t0, $t1, $t2</td>
+</tr>
+<tr>
+<td>sub</td>
+<td>带符号数相减</td>
+<td>sub $t0, $t1, $t2</td>
+</tr>
+<tr>
+<td>mult</td>
+<td>乘法，结果存于(Hi,Lo)中</td>
+<td>mult $t3, $t4</td>
+</tr>
+<tr>
+<td>div</td>
+<td>除法，结果存于(Hi,Lo)中</td>
+<td>div $t5, $t6</td>
+</tr>
+<tr>
+<td>mfhi</td>
+<td>获取Hi中的数值到某寄存器</td>
+<td>mfhi $t0</td>
+</tr>
+<tr>
+<td>mflo</td>
+<td>获取Lo中的数值到某寄存器</td>
+<td>mflo $t1</td>
+</tr>
+<tr>
+<td>beq</td>
+<td>分支跳转，比较两个寄存器的值决定是否跳转，条件为==</td>
+<td>beq $Rs, $Rt, target</td>
+</tr>
+<tr>
+<td>blt</td>
+<td>分支跳转，条件为&lt;</td>
+<td>blt $Rs, $Rt, target</td>
+</tr>
+<tr>
+<td>ble</td>
+<td>分支跳转，条件为&lt;=</td>
+<td>ble $Rs, $Rt, target</td>
+</tr>
+<tr>
+<td>bgt</td>
+<td>分支跳转，条件为&gt;</td>
+<td>bgt $Rs, $Rt, target</td>
+</tr>
+<tr>
+<td>bge</td>
+<td>分支跳转，条件为&gt;=</td>
+<td>bge $Rs, $Rt, target</td>
+</tr>
+<tr>
+<td>bne</td>
+<td>分支跳转，条件为!=</td>
+<td>bne $Rs, $Rt, target</td>
+</tr>
+<tr>
+<td>j</td>
+<td>无条件跳转到某一绝对地址</td>
+<td></td>
+</tr>
+<tr>
+<td>jal</td>
+<td>直接子程序调用，</td>
+<td></td>
+</tr>
+<tr>
+<td>jalr</td>
+<td>间接子程序调用</td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="4-MIPS调试环境安装"><a href="#4-MIPS调试环境安装" class="headerlink" title="4.MIPS调试环境安装"></a>4.MIPS调试环境安装</h4><p>主要参考资料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://xuanxuanblingbling.github.io/ctf/pwn/2020/09/24/mips/">HWS赛题入门MIPS Pwn</a></li>
+<li><a target="_blank" rel="noopener" href="https://b0ldfrev.gitbook.io/note/iot/mipsarm-hui-bian-xue-xi#3-zhi-ling-ge-shi">mips汇编学习</a></li>
+<li><a target="_blank" rel="noopener" href="https://b0ldfrev.gitbook.io/note/iot/mipsarm-hui-bian-xue-xi#3-zhi-ling-ge-shi">CTF-MIPS-入门指南</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/19/%E7%94%B1%E6%AD%A4%E5%BC%80%E5%A7%8B/" rel="prev" title="由此开始">
+      <i class="fa fa-chevron-left"></i> 由此开始
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/19/pwn%E6%A0%88%E6%BA%A2%E5%87%BA%E7%9A%84%E9%A6%96%E6%AC%A1%E5%B0%9D%E8%AF%95/" rel="next" title="pwn栈溢出的首次尝试和基本ROP">
+      pwn栈溢出的首次尝试和基本ROP <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E7%89%B9%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">1.特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">2.寄存器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%8C%87%E4%BB%A4%E9%9B%86"><span class="nav-number">3.</span> <span class="nav-text">3.指令集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-MIPS%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85"><span class="nav-number">4.</span> <span class="nav-text">4.MIPS调试环境安装</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Hyacinthum</p>
+  <div class="site-description" itemprop="description">昼短苦夜长，何不秉烛游</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hyacinthum</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
