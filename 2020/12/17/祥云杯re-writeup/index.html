@@ -74,6 +74,8 @@
 
 
 
+  <link rel="alternate" href="/atom.xml" title="青晷" type="application/atom+xml" />
+
 
 
 
@@ -433,7 +435,7 @@
 <p>就是将原前四位循环移动到最后，即01234567转换为45670123，即完成最后的加密结果</p>
 <p>最后要比较的16进制整数为0x41316EEA99EDA1D9，则在DES加密后对应的结果为<code>0x99 0xed 0x a1 0xd9 0x41 0x31 0x6e 0xea</code>，然后就可以先后进行DES和RC4解密了</p>
 <p>脚本如下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> DES, ARC4</span><br><span class="line"><span class="keyword">from</span> binascii <span class="keyword">import</span> b2a_hex</span><br><span class="line"></span><br><span class="line">c=<span class="string">b&#x27;\x99\xed\xa1\xd9\x41\x31\x6e\xea&#x27;</span></span><br><span class="line">key_des=<span class="string">b&#x27;666C6167&#x27;</span></span><br><span class="line">key_rc4=<span class="string">b&#x27;flag&#x27;</span></span><br><span class="line"></span><br><span class="line">rc4 = ARC4.new(key_rc4)</span><br><span class="line">des = DES.new(key_des, DES.MODE_ECB)</span><br><span class="line"></span><br><span class="line">p1=des.decrypt(c)</span><br><span class="line">p2=rc4.decrypt(p1)</span><br><span class="line">inp=b2a_hex(p2).decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line">flag=<span class="string">&#x27;flag&#123;&#x27;</span>+inp+<span class="string">&#x27;&#125;&#x27;</span></span><br><span class="line"></span><br><span class="line">print(flag)</span><br><span class="line"><span class="comment">#flag&#123;76952041e276e2bf&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> DES, ARC4</span><br><span class="line"><span class="keyword">from</span> binascii <span class="keyword">import</span> b2a_hex</span><br><span class="line"></span><br><span class="line">c=<span class="string">b&#x27;\x99\xed\xa1\xd9\x41\x31\x6e\xea&#x27;</span></span><br><span class="line">key_des=<span class="string">b&#x27;666C6167&#x27;</span></span><br><span class="line">key_rc4=<span class="string">b&#x27;flag&#x27;</span></span><br><span class="line"></span><br><span class="line">rc4 = ARC4.new(key_rc4)</span><br><span class="line">des = DES.new(key_des, DES.MODE_ECB)</span><br><span class="line"></span><br><span class="line">p1=des.decrypt(c)</span><br><span class="line">p2=rc4.decrypt(p1)</span><br><span class="line">inp=b2a_hex(p2).decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line">flag=<span class="string">&#x27;flag&#123;&#x27;</span>+inp+<span class="string">&#x27;&#125;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(flag)</span><br><span class="line"><span class="comment">#flag&#123;76952041e276e2bf&#125;</span></span><br></pre></td></tr></table></figure>
 
 <p>这里说一下我在写这个脚本时碰到的坑，主要是Crpto.Cipher模块，其中ARC4的密钥理论上是1-256，但脚本中长度为4的密钥却会报错，在网上找不到解决办法，最后打开库内ARC4.py的源码，发现限制密钥长度要大于4，修改范围后即可正常运行。</p>
 
@@ -565,6 +567,13 @@
 
           </nav>
 
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
           
 
           
