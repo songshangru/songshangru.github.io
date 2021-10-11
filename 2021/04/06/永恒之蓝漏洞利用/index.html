@@ -101,7 +101,7 @@
 <meta property="og:image" content="http://example.com/2021/04/06/%E6%B0%B8%E6%81%92%E4%B9%8B%E8%93%9D%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8/image-20210419193033970.png">
 <meta property="og:image" content="http://example.com/2021/04/06/%E6%B0%B8%E6%81%92%E4%B9%8B%E8%93%9D%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8/image-20210419193146430.png">
 <meta property="article:published_time" content="2021-04-06T08:50:31.000Z">
-<meta property="article:modified_time" content="2021-10-11T02:10:42.622Z">
+<meta property="article:modified_time" content="2021-10-11T03:28:26.458Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2021/04/06/%E6%B0%B8%E6%81%92%E4%B9%8B%E8%93%9D%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8/image-20210409164440462.png">
@@ -450,16 +450,10 @@
 <li><p>通过SMB_COM_TRANSACTION2命令触发内存越界写</p>
 <p>在计算数据包中FEA_LIST长度时，会将单字拷贝到原双字数据中，攻击者可以借此伪造超长（大于等于0x10000）的FEA_LIST，在之后会使用错误长度进行memmove</p>
 </li>
-</ul>
-</li>
-</ul>
-<ul>
 <li><p>构造长度大于FFFF的SMB_COM_TRANSACTION2命令</p>
 <p>SMB_COM_TRANSACTION2命令数据包限长FFFF，而SMB_COM_NT_TRANSACT则可以发送大于FFFF的数据包。对于TRANSACTION指令，可以对指令进行拆分，后跟对应类型的_SECONDARY数据包，但实际上服务器端只会对最后一个 _SECONDARY包类型进行检查。</p>
 <p>先发送SMB_COM_NT_TRANSACT数据包，后续发送一系列SMB_COM_TRANSACTION2_SECONDARY数据包，即可构造大于FFFF的SMB_COM_TRANSACTION2命令</p>
 </li>
-</ul>
-<ul>
 <li><p>构建内存布局，实现控制转移</p>
 <p>控制转移通过修改SRVNET_BUFFER中MDL指针和指向SRVNET_RECV的指针实现，在断开所有连接后，会转移至servnet_recv结构指向的区域。</p>
 <ul>
@@ -467,6 +461,8 @@
 <li>通过SMB_COM_SESSION_SETUP_ANDX命令的请求格式混淆漏洞，创建大小可控的pool内存区</li>
 <li>继续申请SRVNET_BUFFER，确保与前者连续</li>
 <li>断开第二步的连接，产生一个内存可控的内存空洞，后续紧跟一个SRVNET_BUFFER</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
