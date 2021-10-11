@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>青晷</title>
+  <title>Hyacinthum</title>
   
   <subtitle>昼短苦夜长，何不秉烛游</subtitle>
   <link href="http://example.com/atom.xml" rel="self"/>
@@ -10,7 +10,7 @@
   <id>http://example.com/</id>
   
   <author>
-    <name>John Doe</name>
+    <name>Hyacinthum</name>
     
   </author>
   
