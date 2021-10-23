@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://example.com/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</loc>
+    
+    <lastmod>2021-10-19</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://example.com/2020/12/26/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91IoT%E9%97%AF%E5%85%B3%E8%B5%9Bpwn%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</loc>
     
     <lastmod>2021-10-14</lastmod>
@@ -137,7 +144,7 @@
 
   <url>
     <loc>http://example.com/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -145,133 +152,140 @@
   
   <url>
     <loc>http://example.com/tags/Iot/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/ARM/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/MIPS/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/Pwn/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/CTF/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/pwn/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/Coding/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/Python/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/Interesting/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/malware/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/ransomware/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/reading/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/life/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/metasploit/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/windows-kernal/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/windbg/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/router/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/Reverse/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://example.com/tags/Arm/</loc>
-    <lastmod>2021-10-14</lastmod>
+    <lastmod>2021-10-23</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/thesis-reading/</loc>
+    <lastmod>2021-10-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>

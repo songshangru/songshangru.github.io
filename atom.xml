@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-10-14T00:19:12.495Z</updated>
+  <updated>2021-10-19T05:25:03.342Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>勒索软件防御相关论文阅读</title>
+    <link href="http://example.com/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    <id>http://example.com/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</id>
+    <published>2021-10-19T01:37:20.000Z</published>
+    <updated>2021-10-19T05:25:03.342Z</updated>
+    
+    <content type="html"><![CDATA[<p>在做了几篇文章的笔记后感觉没什么动力，上传到博客里作为激励吧……</p><a id="more"></a><h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><ul><li>UNVEIL: A Large-Scale, Automated Approach to Detecting Ransomware  （2016）</li><li>Peeler: Profiling Kernel-Level Events to Detect Ransomware  （2021）</li><li>PayBreak : Defense Against Cryptographic Ransomware  （2017）</li><li>R-Locker: Thwarting Ransomware Action through a Honeyfile-based Approach  </li><li>PaperW8: An IoT Bricking Ransomware Proof of Concept  </li><li>FlashGuard: Leveraging Intrinsic Flash Properties to Defend Against Encryption Ransomware  </li></ul><h2 id="UNVEIL-A-Large-Scale-Automated-Approach-to-Detecting-Ransomware-（2016）"><a href="#UNVEIL-A-Large-Scale-Automated-Approach-to-Detecting-Ransomware-（2016）" class="headerlink" title="UNVEIL: A Large-Scale, Automated Approach to Detecting Ransomware  （2016）"></a>UNVEIL: A Large-Scale, Automated Approach to Detecting Ransomware  （2016）</h2><p>框架：Cuckoo Sanbox</p><p>主要贡献</p><ul><li>提出名为file lockers的技术检测勒索病毒，基于监控系统范围的文件系统访问结合自动生成的人工用户环境处理勒索病毒</li><li>提出名为screen lockers的技术，通过分析系统桌面检测勒索病毒（需要在勒索病毒执行之后）</li><li>进行了大规模评估</li></ul><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>勒索病毒行为</p><ul><li>持续的桌面信息</li><li>任意加密或删除私人文件</li><li>依据某些属性有选择地加密并删除用户文件</li></ul><h3 id="设计与实现"><a href="#设计与实现" class="headerlink" title="设计与实现"></a>设计与实现</h3><h4 id="用户环境的生成"><a href="#用户环境的生成" class="headerlink" title="用户环境的生成"></a>用户环境的生成</h4><p>自动生成的复杂的测试环境</p><ul><li>生成了大量有效的文件内容</li><li>目录结构随机</li><li>文件时间属性随机生成，包括创建、修改、访问时间</li></ul><h4 id="文件系统活动监视器"><a href="#文件系统活动监视器" class="headerlink" title="文件系统活动监视器"></a>文件系统活动监视器</h4><p>使用Windows Filesystem Minifilter Driver framework监视文件系统活动</p><p>在Windows中，I/O请求由I/O请求包(IRPs)表示。该监视器将所有I/O请求的回调设置为代表用户模式进程生成的文件系统，建立在驱动器过滤程序上，这是离文件系统最近的层</p><h4 id="桌面锁监视器"><a href="#桌面锁监视器" class="headerlink" title="桌面锁监视器"></a>桌面锁监视器</h4><p>（个人感觉非常鸡肋）</p><p>从动态生成环境之外进行监控，防止恶意程序的破坏</p><p>还用了OCR提取屏幕截图中的文字</p><h2 id="PaperW8-An-IoT-Bricking-Ransomware-Proof-of-Concept-（ARES-2020）"><a href="#PaperW8-An-IoT-Bricking-Ransomware-Proof-of-Concept-（ARES-2020）" class="headerlink" title="PaperW8: An IoT Bricking Ransomware Proof of Concept  （ARES 2020）"></a>PaperW8: An IoT Bricking Ransomware Proof of Concept  （ARES 2020）</h2><ul><li>提出了一种对物联网设备的勒索概念，可以永久禁用设备</li><li>可以与诸多使用linux的物联网设备兼容</li><li>展示如何向被感染的物联网设备拥有者提示</li><li>攻击者可以远程恢复</li><li>讨论了可能进行的缓解方法</li></ul><p>iot勒索软件存在的局限性</p><ul><li>通常来说iot设备的文件不具备被勒索的价值</li><li>持久性存在问题，通常IOT的文件系统等基本存储在闪存中</li><li>物联网设备无法及时与受害者进行沟通</li><li>设备和架构变化较大</li></ul><p><img src="/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20211019131246343.png" alt="image-20211019131246343"></p><ul><li>入侵设备后，使用TFTP服务器下载设备对应的恶意负载</li><li>持久化原理：使用MTD子系统进行持久化，加密bootloader内容，这时候重启设备将导致设备无法工作</li></ul><h2 id="FlashGuard-Leveraging-Intrinsic-Flash-Properties-to-Defend-Against-Encryption-Ransomware-（CCS-2017）"><a href="#FlashGuard-Leveraging-Intrinsic-Flash-Properties-to-Defend-Against-Encryption-Ransomware-（CCS-2017）" class="headerlink" title="FlashGuard: Leveraging Intrinsic Flash Properties to Defend Against Encryption Ransomware  （CCS 2017）"></a>FlashGuard: Leveraging Intrinsic Flash Properties to Defend Against Encryption Ransomware  （CCS 2017）</h2><p>基于SSD盘固件的勒索软件防护机制，不信任操作系统</p><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p><img src="/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20211019131605337.png" alt="image-20211019131605337"></p><p>因为SSD盘对于覆盖操作是写入空闲空间后再利用GC机制对原空间进行回收的。ssd在固件级别上有一个间接层来管理数据。在此基础上构建一个恢复系统，我们可以自然地将我们的恢复系统与操作系统隔离，使其抵抗通常由恶意软件发起的攻击。</p><h4 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h4>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;在做了几篇文章的笔记后感觉没什么动力，上传到博客里作为激励吧……&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="ransomware" scheme="http://example.com/tags/ransomware/"/>
+    
+    <category term="thesis reading" scheme="http://example.com/tags/thesis-reading/"/>
+    
+  </entry>
   
   <entry>
     <title>回忆在结束之后——记录保研</title>
