@@ -22,7 +22,7 @@
 
   <meta name="description" content="在做了几篇文章的笔记后感觉没什么动力，上传到博客里作为激励吧……">
 <meta property="og:type" content="article">
-<meta property="og:title" content="勒索软件防御相关论文阅读">
+<meta property="og:title" content="勒索软件与ICS移动目标防御相关论文阅读">
 <meta property="og:url" content="http://example.com/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/index.html">
 <meta property="og:site_name" content="Hyacinthum">
 <meta property="og:description" content="在做了几篇文章的笔记后感觉没什么动力，上传到博客里作为激励吧……">
@@ -34,11 +34,14 @@
 <meta property="og:image" content="http://example.com/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20211101111112888.png">
 <meta property="og:image" content="http://example.com/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20211101142120463.png">
 <meta property="og:image" content="http://example.com/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20211101165857340.png">
+<meta property="og:image" content="http://example.com/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20211201164631555.png">
 <meta property="article:published_time" content="2021-10-19T01:37:20.000Z">
-<meta property="article:modified_time" content="2021-11-01T13:55:07.399Z">
+<meta property="article:modified_time" content="2021-12-03T08:16:14.678Z">
 <meta property="article:author" content="Hyacinthum">
 <meta property="article:tag" content="ransomware">
 <meta property="article:tag" content="thesis reading">
+<meta property="article:tag" content="ICS">
+<meta property="article:tag" content="MTD">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20211019131246343.png">
 
@@ -55,7 +58,7 @@
   };
 </script>
 
-  <title>勒索软件防御相关论文阅读 | Hyacinthum</title>
+  <title>勒索软件与ICS移动目标防御相关论文阅读 | Hyacinthum</title>
   
 
 
@@ -213,7 +216,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          勒索软件防御相关论文阅读
+          勒索软件与ICS移动目标防御相关论文阅读
         </h1>
 
         <div class="post-meta">
@@ -230,7 +233,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-01 21:55:07" itemprop="dateModified" datetime="2021-11-01T21:55:07+08:00">2021-11-01</time>
+                <time title="修改时间：2021-12-03 16:16:14" itemprop="dateModified" datetime="2021-12-03T16:16:14+08:00">2021-12-03</time>
               </span>
 
           
@@ -260,6 +263,11 @@
 <li>HoneyPLC: A Next-Generation Honeypot for Industrial Control Systems  </li>
 <li>Empirical Study of PLC Authentication Protocols in Industrial Control Systems </li>
 <li>DefRec: Establishing Physical Function Virtualization to Disrupt Reconnaissance of Power Grids’ Cyber-Physical Infrastructures（NDSS 2020）</li>
+</ul>
+<p>MTD相关</p>
+<ul>
+<li>MTDCD: an MTD Enhanced Cyber Deception Defense System  </li>
+<li>FRVM: Flexible Random Virtual IP Multiplexing in Software-Defined Networks</li>
 </ul>
 <h2 id="UNVEIL-A-Large-Scale-Automated-Approach-to-Detecting-Ransomware-（2016）"><a href="#UNVEIL-A-Large-Scale-Automated-Approach-to-Detecting-Ransomware-（2016）" class="headerlink" title="UNVEIL: A Large-Scale, Automated Approach to Detecting Ransomware  （2016）"></a>UNVEIL: A Large-Scale, Automated Approach to Detecting Ransomware  （2016）</h2><p>框架：Cuckoo Sanbox</p>
 <p>主要贡献</p>
@@ -407,6 +415,27 @@
 <li>在ONOS中实现了PFV作为SDN应用程序和DefRec的干扰策略，部署在Ubuntu系统中</li>
 <li>电网模拟：使用MATPOWER模拟了六种电力系统</li>
 </ul>
+<h2 id="MTDCD-an-MTD-Enhanced-Cyber-Deception-Defense-System"><a href="#MTDCD-an-MTD-Enhanced-Cyber-Deception-Defense-System" class="headerlink" title="MTDCD: an MTD Enhanced Cyber Deception Defense System"></a>MTDCD: an MTD Enhanced Cyber Deception Defense System</h2><h3 id="设计-3"><a href="#设计-3" class="headerlink" title="设计"></a>设计</h3><p><img src="/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20211201164631555.png" alt="image-20211201164631555"></p>
+<p>三个部分组成</p>
+<ul>
+<li><p>虚拟网络拓扑模块</p>
+<p>负责生成虚拟网络拓扑并且根据拓扑分发流表，可分为</p>
+<ul>
+<li><p>虚拟网络拓扑生成模块</p>
+<p>提供虚拟网络组件与连接的规范，及描述真实和虚拟主机和诱饵节点的地址信息与连接信息，包括真实IP地址与虚拟IP地址、真实MAC地址、交换机端口、虚拟路径信息等。</p>
+</li>
+<li><p>诱饵节点生成模块</p>
+<p>根据虚拟网络拓扑规范生成大量的诱饵节点，采用一对多映射（一个实体蜜罐主机对应多个虚拟节点），在虚拟网络拓扑配置文件中为一个蜜罐主机分配多个IP地址，并转发虚拟节点流量</p>
+</li>
+<li><p>流表分配模块</p>
+</li>
+</ul>
+</li>
+<li><p>IP随机化模块</p>
+</li>
+<li><p>欺骗服务器</p>
+</li>
+</ul>
 
     </div>
 
@@ -418,6 +447,8 @@
           <div class="post-tags">
               <a href="/tags/ransomware/" rel="tag"># ransomware</a>
               <a href="/tags/thesis-reading/" rel="tag"># thesis reading</a>
+              <a href="/tags/ICS/" rel="tag"># ICS</a>
+              <a href="/tags/MTD/" rel="tag"># MTD</a>
           </div>
 
         
@@ -429,7 +460,10 @@
     <a href="/2021/10/11/%E5%9B%9E%E5%BF%86%E5%9C%A8%E7%BB%93%E6%9D%9F%E4%B9%8B%E5%90%8E%E2%80%94%E2%80%94%E8%AE%B0%E5%BD%95%E4%BF%9D%E7%A0%94/" rel="prev" title="回忆在结束之后——记录保研">
       <i class="fa fa-chevron-left"></i> 回忆在结束之后——记录保研
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/" rel="next" title="SDN知识学习">
+      SDN知识学习 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -488,7 +522,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#List"><span class="nav-number">1.</span> <span class="nav-text">List</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UNVEIL-A-Large-Scale-Automated-Approach-to-Detecting-Ransomware-%EF%BC%882016%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">UNVEIL: A Large-Scale, Automated Approach to Detecting Ransomware  （2016）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">2.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.2.</span> <span class="nav-text">设计与实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E7%9A%84%E7%94%9F%E6%88%90"><span class="nav-number">2.2.1.</span> <span class="nav-text">用户环境的生成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%B4%BB%E5%8A%A8%E7%9B%91%E8%A7%86%E5%99%A8"><span class="nav-number">2.2.2.</span> <span class="nav-text">文件系统活动监视器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A1%8C%E9%9D%A2%E9%94%81%E7%9B%91%E8%A7%86%E5%99%A8"><span class="nav-number">2.2.3.</span> <span class="nav-text">桌面锁监视器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PaperW8-An-IoT-Bricking-Ransomware-Proof-of-Concept-%EF%BC%88ARES-2020%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">PaperW8: An IoT Bricking Ransomware Proof of Concept  （ARES 2020）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FlashGuard-Leveraging-Intrinsic-Flash-Properties-to-Defend-Against-Encryption-Ransomware-%EF%BC%88CCS-2017%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">FlashGuard: Leveraging Intrinsic Flash Properties to Defend Against Encryption Ransomware  （CCS 2017）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">4.0.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1"><span class="nav-number">4.0.2.</span> <span class="nav-text">设计</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HoneyPLC-A-Next-Generation-Honeypot-for-Industrial-Control-Systems-%EF%BC%88CCS-2020%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">HoneyPLC: A Next-Generation Honeypot for Industrial Control Systems  （CCS 2020）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1-1"><span class="nav-number">5.1.</span> <span class="nav-text">设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">5.2.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%A4%BA%E4%BE%8B"><span class="nav-number">5.2.1.</span> <span class="nav-text">配置文件示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%AD%90%E7%B3%BB%E7%BB%9F"><span class="nav-number">5.2.2.</span> <span class="nav-text">虚拟子系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%AA%E6%80%A7%E5%BC%95%E6%93%8E"><span class="nav-number">5.2.3.</span> <span class="nav-text">个性引擎</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SNMP%E6%94%BB%E5%87%BB%E9%9D%A2"><span class="nav-number">5.2.4.</span> <span class="nav-text">SNMP攻击面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP%E6%94%BB%E5%87%BB%E9%9D%A2"><span class="nav-number">5.2.5.</span> <span class="nav-text">HTTP攻击面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#S7comm%E6%94%BB%E5%87%BB%E9%9D%A2"><span class="nav-number">5.2.6.</span> <span class="nav-text">S7comm攻击面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E5%99%A8-HoneyPLC-Profiler"><span class="nav-number">5.2.7.</span> <span class="nav-text">分析器 HoneyPLC Profiler</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DefRec-Establishing-Physical-Function-Virtualization-to-Disrupt-Reconnaissance-of-Power-Grids%E2%80%99-Cyber-Physical-Infrastructures%EF%BC%88NDSS-2020%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">DefRec: Establishing Physical Function Virtualization to Disrupt Reconnaissance of Power Grids’ Cyber-Physical Infrastructures（NDSS 2020）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E7%9B%AE%E6%A0%87"><span class="nav-number">6.1.</span> <span class="nav-text">设计目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1-2"><span class="nav-number">6.2.</span> <span class="nav-text">设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#PFV"><span class="nav-number">6.2.1.</span> <span class="nav-text">PFV</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DefRec"><span class="nav-number">6.2.2.</span> <span class="nav-text">DefRec</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B2%E6%89%B0%E7%AD%96%E7%95%A5%EF%BC%9A%E9%9A%8F%E6%9C%BA%E5%8C%96%E6%B2%9F%E9%80%9A"><span class="nav-number">6.3.</span> <span class="nav-text">干扰策略：随机化沟通</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E5%8C%96%E8%AF%B7%E6%B1%82%E6%A8%A1%E5%BC%8F"><span class="nav-number">6.3.1.</span> <span class="nav-text">随机化请求模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%B2%E5%BE%A1%E7%A7%AF%E6%9E%81%E6%94%BB%E5%87%BB%E7%9A%84%E6%A6%82%E7%8E%87%E4%B8%A2%E5%A4%B1%E5%8D%8F%E8%AE%AE"><span class="nav-number">6.3.2.</span> <span class="nav-text">防御积极攻击的概率丢失协议</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E8%AF%AF%E5%AF%BC%E7%AD%96%E7%95%A5%EF%BC%9A%E8%AF%B1%E9%A5%B5%E6%95%B0%E6%8D%AE"><span class="nav-number">6.4.</span> <span class="nav-text">攻击误导策略：诱饵数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0-1"><span class="nav-number">6.5.</span> <span class="nav-text">实现</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#List"><span class="nav-number">1.</span> <span class="nav-text">List</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UNVEIL-A-Large-Scale-Automated-Approach-to-Detecting-Ransomware-%EF%BC%882016%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">UNVEIL: A Large-Scale, Automated Approach to Detecting Ransomware  （2016）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">2.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.2.</span> <span class="nav-text">设计与实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E7%8E%AF%E5%A2%83%E7%9A%84%E7%94%9F%E6%88%90"><span class="nav-number">2.2.1.</span> <span class="nav-text">用户环境的生成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%B4%BB%E5%8A%A8%E7%9B%91%E8%A7%86%E5%99%A8"><span class="nav-number">2.2.2.</span> <span class="nav-text">文件系统活动监视器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A1%8C%E9%9D%A2%E9%94%81%E7%9B%91%E8%A7%86%E5%99%A8"><span class="nav-number">2.2.3.</span> <span class="nav-text">桌面锁监视器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PaperW8-An-IoT-Bricking-Ransomware-Proof-of-Concept-%EF%BC%88ARES-2020%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">PaperW8: An IoT Bricking Ransomware Proof of Concept  （ARES 2020）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FlashGuard-Leveraging-Intrinsic-Flash-Properties-to-Defend-Against-Encryption-Ransomware-%EF%BC%88CCS-2017%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">FlashGuard: Leveraging Intrinsic Flash Properties to Defend Against Encryption Ransomware  （CCS 2017）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">4.0.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1"><span class="nav-number">4.0.2.</span> <span class="nav-text">设计</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HoneyPLC-A-Next-Generation-Honeypot-for-Industrial-Control-Systems-%EF%BC%88CCS-2020%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">HoneyPLC: A Next-Generation Honeypot for Industrial Control Systems  （CCS 2020）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1-1"><span class="nav-number">5.1.</span> <span class="nav-text">设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">5.2.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%A4%BA%E4%BE%8B"><span class="nav-number">5.2.1.</span> <span class="nav-text">配置文件示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%AD%90%E7%B3%BB%E7%BB%9F"><span class="nav-number">5.2.2.</span> <span class="nav-text">虚拟子系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%AA%E6%80%A7%E5%BC%95%E6%93%8E"><span class="nav-number">5.2.3.</span> <span class="nav-text">个性引擎</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SNMP%E6%94%BB%E5%87%BB%E9%9D%A2"><span class="nav-number">5.2.4.</span> <span class="nav-text">SNMP攻击面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP%E6%94%BB%E5%87%BB%E9%9D%A2"><span class="nav-number">5.2.5.</span> <span class="nav-text">HTTP攻击面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#S7comm%E6%94%BB%E5%87%BB%E9%9D%A2"><span class="nav-number">5.2.6.</span> <span class="nav-text">S7comm攻击面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E5%99%A8-HoneyPLC-Profiler"><span class="nav-number">5.2.7.</span> <span class="nav-text">分析器 HoneyPLC Profiler</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DefRec-Establishing-Physical-Function-Virtualization-to-Disrupt-Reconnaissance-of-Power-Grids%E2%80%99-Cyber-Physical-Infrastructures%EF%BC%88NDSS-2020%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">DefRec: Establishing Physical Function Virtualization to Disrupt Reconnaissance of Power Grids’ Cyber-Physical Infrastructures（NDSS 2020）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E7%9B%AE%E6%A0%87"><span class="nav-number">6.1.</span> <span class="nav-text">设计目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1-2"><span class="nav-number">6.2.</span> <span class="nav-text">设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#PFV"><span class="nav-number">6.2.1.</span> <span class="nav-text">PFV</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DefRec"><span class="nav-number">6.2.2.</span> <span class="nav-text">DefRec</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B2%E6%89%B0%E7%AD%96%E7%95%A5%EF%BC%9A%E9%9A%8F%E6%9C%BA%E5%8C%96%E6%B2%9F%E9%80%9A"><span class="nav-number">6.3.</span> <span class="nav-text">干扰策略：随机化沟通</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E5%8C%96%E8%AF%B7%E6%B1%82%E6%A8%A1%E5%BC%8F"><span class="nav-number">6.3.1.</span> <span class="nav-text">随机化请求模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%B2%E5%BE%A1%E7%A7%AF%E6%9E%81%E6%94%BB%E5%87%BB%E7%9A%84%E6%A6%82%E7%8E%87%E4%B8%A2%E5%A4%B1%E5%8D%8F%E8%AE%AE"><span class="nav-number">6.3.2.</span> <span class="nav-text">防御积极攻击的概率丢失协议</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E8%AF%AF%E5%AF%BC%E7%AD%96%E7%95%A5%EF%BC%9A%E8%AF%B1%E9%A5%B5%E6%95%B0%E6%8D%AE"><span class="nav-number">6.4.</span> <span class="nav-text">攻击误导策略：诱饵数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0-1"><span class="nav-number">6.5.</span> <span class="nav-text">实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MTDCD-an-MTD-Enhanced-Cyber-Deception-Defense-System"><span class="nav-number">7.</span> <span class="nav-text">MTDCD: an MTD Enhanced Cyber Deception Defense System</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1-3"><span class="nav-number">7.1.</span> <span class="nav-text">设计</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -504,14 +538,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">25</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/BLACK.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/BLACK.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/BLACK.jpg">
+  <link rel="mask-icon" href="/images/BLACK.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"./public/search.xml"};
+  </script>
+
+  <meta name="description" content="记录实现移动目标防御所需的SDN的相关内容">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SDN知识学习">
+<meta property="og:url" content="http://example.com/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Hyacinthum">
+<meta property="og:description" content="记录实现移动目标防御所需的SDN的相关内容">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/image-20211201215353392.png">
+<meta property="og:image" content="http://example.com/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/image-20211203152149633.png">
+<meta property="og:image" content="http://example.com/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/image-20211203150826794.png">
+<meta property="og:image" content="http://example.com/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/image-20211203150858340.png">
+<meta property="og:image" content="http://example.com/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/image-20211203152705108.png">
+<meta property="og:image" content="http://example.com/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/assets/-L9rgYC6PUIj4mlO7_pn/-LDZS-yElRbis9qdjN9s/-LDZSDGkG5It0ZhtgMPM/match.png">
+<meta property="og:image" content="http://example.com/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/1128337-20170507200400445-1868016871.jpg">
+<meta property="og:image" content="http://example.com/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/image-20211201204617100.png">
+<meta property="article:published_time" content="2021-12-01T09:26:33.000Z">
+<meta property="article:modified_time" content="2021-12-03T08:15:21.409Z">
+<meta property="article:author" content="Hyacinthum">
+<meta property="article:tag" content="SDN">
+<meta property="article:tag" content="ONOS">
+<meta property="article:tag" content="Openflow">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/image-20211201215353392.png">
+
+<link rel="canonical" href="http://example.com/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>SDN知识学习 | Hyacinthum</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Hyacinthum" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hyacinthum</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">昼短苦夜长，何不秉烛游</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/WHITE.jpg">
+      <meta itemprop="name" content="Hyacinthum">
+      <meta itemprop="description" content="昼短苦夜长，何不秉烛游">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hyacinthum">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SDN知识学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-01 17:26:33" itemprop="dateCreated datePublished" datetime="2021-12-01T17:26:33+08:00">2021-12-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-03 16:15:21" itemprop="dateModified" datetime="2021-12-03T16:15:21+08:00">2021-12-03</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录实现移动目标防御所需的SDN的相关内容</p>
+<a id="more"></a>
+
+<h2 id="SDN简介"><a href="#SDN简介" class="headerlink" title="SDN简介"></a>SDN简介</h2><p>SDN是一种新型的网络设计理念，将控制平面与转发平面分离，由控制器负责集中控制。一般来说控制器开放的API被称为北向接口，控制器与底层网络之间的接口称为南向接口。</p>
+<h3 id="SDN控制器"><a href="#SDN控制器" class="headerlink" title="SDN控制器"></a>SDN控制器</h3><p>核心技术主要包括</p>
+<ul>
+<li><p>链路发现与拓扑管理</p>
+<p>主要使用LLDP（链路层发现协议）发现其控制的<strong>交换机</strong>，发现过程如下：</p>
+<ul>
+<li>通过<code>Packet_out</code>包向所有相连的交换机发送LLDP包，要求交换机发出广播包</li>
+<li>这些交换机收到消息后会向其所有端口发送LLDP数据包</li>
+<li>OpenFlow交换机收到LLDP数据包后通过<code>Packet_in</code>消息将链路信息发送给控制器</li>
+<li>控制器根据收到的Packet_in消息创建网络拓扑</li>
+</ul>
+</li>
+<li><p>高可用性和分布式状态管理</p>
+</li>
+<li><p>自动化部署与无丢包升级</p>
+</li>
+</ul>
+<h2 id="OpenFlow"><a href="#OpenFlow" class="headerlink" title="OpenFlow"></a>OpenFlow</h2><p>使用较多的南向接口协议。南向接口协议可以理解为数据平面的编程接口，决定了SDN架构的可编程能力。OpenFlow提出了控制与转发分离的架构，规定了SDN转发设备的基本组件和功能要求，以及与控制器通信的协议。</p>
+<p>该协议规范定义了交换机、流表、OF通道以及交换协议</p>
+<h3 id="OpenFlow交换机"><a href="#OpenFlow交换机" class="headerlink" title="OpenFlow交换机"></a>OpenFlow交换机</h3><p><img src="/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/image-20211201215353392.png" alt="image-20211201215353392"></p>
+<ul>
+<li>控制器通过OF通道与交换器通信</li>
+<li>流表保存流表项</li>
+<li>组表定义一组可以被多个流表项共同使用的动作</li>
+<li>Meter用于计量和限速</li>
+<li>端口是OpenFlow与其他网络协议进行数据交换的接口</li>
+</ul>
+<h3 id="流表"><a href="#流表" class="headerlink" title="流表"></a>流表</h3><p>流表（FlowTable）是OpenFlow协议的核心，其本身的生成、维护和下发由控制器实现。由控制器和交换机共同完成数据报文的转发。流表表项中整合了网络中各个层次的网络配置信息，从而在进行数据转发时可以使用更丰富的规则。</p>
+<p>流表项均包含</p>
+<p><img src="/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/image-20211203152149633.png" alt="image-20211203152149633"></p>
+<ul>
+<li><p>匹配域 Match Fields</p>
+<p>流表项匹配规则，可以匹配入接口、物理入接口，流表间数据，二层报文头，三层报文头，四层端口号等报文字段等。</p>
+</li>
+<li><p>优先级 Priority</p>
+<p>流表项优先级，定义流表项之间的匹配顺序，优先级高的先匹配。</p>
+</li>
+<li><p>计数器 Counters</p>
+<p>流表项统计计数，统计有多少个报文和字节匹配到该流表项。</p>
+</li>
+<li><p>指令与动作 Instructions</p>
+<p>定义匹配到该流表项的报文需要进行的处理。当报文匹配流表项时，每个流表项包含的指令集就会执行。这些指令会影响到报文、动作集以及管道流程。 交换机不需要支持所有的指令类型，并且控制器可以询问。</p>
+<p>Instruction指令类型如下所示</p>
+<p><img src="/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/image-20211203150826794.png" alt="image-20211203150826794"></p>
+<p>Action动作类型如下所示</p>
+<p><img src="/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/image-20211203150858340.png" alt="image-20211203150858340"></p>
+</li>
+<li><p>Timeouts 超时时间</p>
+</li>
+<li><p>Cookie Controller下发的流表项的标识</p>
+</li>
+</ul>
+<p>流表处理流程可参考如下</p>
+<p><img src="/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/image-20211203152705108.png" alt="image-20211203152705108"></p>
+<ul>
+<li>报文进入Switch后，从编号最小的流表开始匹配</li>
+<li>当报文成功匹配了一条流表项之后，更新流表项统计数据，根据流表项指令进行相关操作</li>
+<li>当数据包已经处于最后一个流表时，其对应的Action Set中的所有Action将被执行</li>
+</ul>
+<p>更详细的执行流程可以参考下图</p>
+<p><img src="/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/assets/-L9rgYC6PUIj4mlO7_pn/-LDZS-yElRbis9qdjN9s/-LDZSDGkG5It0ZhtgMPM/match.png" alt="img"></p>
+<h3 id="OF通道"><a href="#OF通道" class="headerlink" title="OF通道"></a>OF通道</h3><p>是控制器和交换机通信的通道，控制器可以通过该通道配置和管理交换机、接收交换机事件。使用OpenFlow交换协议。</p>
+<p>OpenFlow交换协议支持三种类型的报文</p>
+<ul>
+<li><p>controller-to-switch</p>
+<p>控制器初始化并下发给交换机的报文，用于管理并查询交换机状态（如查询交换机特性，修改交换机流表、组表等）</p>
+</li>
+<li><p>asynchronous</p>
+<p>交换机异步发送给控制器的报文，用于更新网络事件和交换机状态的改变（如新报文到达、交换机端口变化等）</p>
+</li>
+<li><p>symmetric</p>
+<p>交换机或控制器发送，但无需对方许可，如Hello协商、Echo活性测试、Error错误报文等</p>
+</li>
+</ul>
+<p><img src="/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/1128337-20170507200400445-1868016871.jpg" alt="img"></p>
+<h2 id="ONOS"><a href="#ONOS" class="headerlink" title="ONOS"></a>ONOS</h2><p>一个开源SDN网络操作系统控制器。</p>
+<p><img src="/2021/12/01/SDN%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0/image-20211201204617100.png" alt="image-20211201204617100"></p>
+<p>ONOS集群如上图所示，具有如下特点</p>
+<ul>
+<li>分布式：多个实例组成一个集群</li>
+<li>对称性：每一个实例运行相同的软件和配置</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/SDN/" rel="tag"># SDN</a>
+              <a href="/tags/ONOS/" rel="tag"># ONOS</a>
+              <a href="/tags/Openflow/" rel="tag"># Openflow</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" rel="prev" title="勒索软件与ICS移动目标防御相关论文阅读">
+      <i class="fa fa-chevron-left"></i> 勒索软件与ICS移动目标防御相关论文阅读
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SDN%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">SDN简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SDN%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">SDN控制器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenFlow"><span class="nav-number">2.</span> <span class="nav-text">OpenFlow</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenFlow%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-number">2.1.</span> <span class="nav-text">OpenFlow交换机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%81%E8%A1%A8"><span class="nav-number">2.2.</span> <span class="nav-text">流表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OF%E9%80%9A%E9%81%93"><span class="nav-number">2.3.</span> <span class="nav-text">OF通道</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ONOS"><span class="nav-number">3.</span> <span class="nav-text">ONOS</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hyacinthum"
+      src="/images/WHITE.jpg">
+  <p class="site-author-name" itemprop="name">Hyacinthum</p>
+  <div class="site-description" itemprop="description">昼短苦夜长，何不秉烛游</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/songshangru" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;songshangru" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:948249890@qq.com" title="E-Mail → mailto:948249890@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hyacinthum</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
