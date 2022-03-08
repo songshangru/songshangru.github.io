@@ -35,8 +35,12 @@
 <meta property="og:image" content="http://example.com/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20211101142120463.png">
 <meta property="og:image" content="http://example.com/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20211101165857340.png">
 <meta property="og:image" content="http://example.com/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20211201164631555.png">
+<meta property="og:image" content="http://example.com/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20211203194312038.png">
+<meta property="og:image" content="http://example.com/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20211203201014906.png">
+<meta property="og:image" content="http://example.com/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20211203202324191.png">
+<meta property="og:image" content="http://example.com/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20211203202348591.png">
 <meta property="article:published_time" content="2021-10-19T01:37:20.000Z">
-<meta property="article:modified_time" content="2021-12-03T09:38:20.608Z">
+<meta property="article:modified_time" content="2021-12-07T03:03:27.869Z">
 <meta property="article:author" content="Hyacinthum">
 <meta property="article:tag" content="ransomware">
 <meta property="article:tag" content="thesis reading">
@@ -233,7 +237,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-03 17:38:20" itemprop="dateModified" datetime="2021-12-03T17:38:20+08:00">2021-12-03</time>
+                <time title="修改时间：2021-12-07 11:03:27" itemprop="dateModified" datetime="2021-12-07T11:03:27+08:00">2021-12-07</time>
               </span>
 
           
@@ -428,12 +432,31 @@
 <p>根据虚拟网络拓扑规范生成大量的诱饵节点，采用一对多映射（一个实体蜜罐主机对应多个虚拟节点），在虚拟网络拓扑配置文件中为一个蜜罐主机分配多个IP地址，并转发虚拟节点流量</p>
 </li>
 <li><p>流表分配模块</p>
+<p>流表分发模块监听来自交换机的PackIn消息，根据虚拟网络拓扑的规格动态生成特定的流表，并推送到SDN交换机，控制网络传输。</p>
 </li>
 </ul>
 </li>
 <li><p>IP随机化模块</p>
+<p>IP随机化模块负责协调网络中主机与诱饵节点之间的地址转换。它包括地址管理模块、转换决策模块和连接维护模块三个子模块</p>
+<ul>
+<li><p>地址管理模块</p>
+<p>负责主机和诱饵节点的实时数据，以及主机和诱饵节点的IP分配，确保他们在IP分配过程中不会互相影响</p>
+</li>
+<li><p>转换决策模块</p>
+<p>负责设置IP地址随机化和虚拟网络拓扑结构的施工方法,包括虚拟网络拓扑结构的大小,数量的子网,每个子网诱饵节点的数量,网络中主机的位置。</p>
+</li>
+<li><p>连接维护模块</p>
+<p>负责在地址变更时不中断端到端连接，确保地址变更对用户是透明的。通过设置流表的空闲生存时间来维护连接。</p>
+</li>
+</ul>
 </li>
 <li><p>欺骗服务器</p>
+<p>负责根据虚拟网络视图的规格做出响应来欺骗恶意扫描器，包括地址管理模块、消息处理模块、DHCP处理模块、ARP处理模块、ICMP处理模块、路由模拟模块。</p>
+<ul>
+<li>地址管理模块负责确保与SDN控制器保持相同的虚拟网络拓扑规范。</li>
+<li>消息处理模块负责对接收到的数据包进行解析，并根据数据包的类型将其发送给相应的模块进行处理。</li>
+<li>DHCP处理模块、ARP处理模块、ICMP处理模块、路由模拟模块负责对来自恶意扫描器的特定请求进行欺骗性响应。</li>
+</ul>
 </li>
 </ul>
 <h2 id="FRVM-Flexible-Random-Virtual-IP-Multiplexing-in-Software-Defined-Networks"><a href="#FRVM-Flexible-Random-Virtual-IP-Multiplexing-in-Software-Defined-Networks" class="headerlink" title="FRVM: Flexible Random Virtual IP Multiplexing in Software-Defined Networks"></a>FRVM: Flexible Random Virtual IP Multiplexing in Software-Defined Networks</h2><p>FRVM使主机拥有多个随机的、时变的虚拟IP地址。主要贡献为：</p>
@@ -454,9 +477,31 @@
 <h3 id="原理与架构"><a href="#原理与架构" class="headerlink" title="原理与架构"></a>原理与架构</h3><ul>
 <li><p>IP映射</p>
 <p>在FRVM中，每个服务器主机有一个rIP，rIP被映射为一个集合的vIP，多个vIP到单个rIP的映射被称为复用，单个rIP到多个vIP的映射被称为解复用。</p>
-<p>同时，因为服务器主机提供一个或多个服务，这些服务对应端口号</p>
+<p>同时，因为服务器主机提供一个或多个服务，这些服务对应端口号。使用加密保护的随机数生成器随机生成一个新的vIP，并分配给服务器主机的服务。所有被随机分配到服务器-主机的vip都在一个短时间内不断地被更改，这个时间间隔被称为“多路复用时间间隔”，用T表示。而rIP保持不变。SDN控制器处理所有地址的映射和重映射、server-host的vip更改以及SDN交换机的流表项更新，在边缘交换机处理映射。这一映射对用户终端是透明的。</p>
 </li>
 <li><p>系统架构</p>
+<p><img src="/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20211203194312038.png" alt="image-20211203194312038"></p>
+<ul>
+<li>SDN控制器：动态改变终端主机vIP</li>
+<li>SDN交换机：根据SDN控制器指定的流规则转发数据平面流量</li>
+<li>数据平面：基于网络交换机和终端主机的拓扑连接</li>
+<li>控制平面：交换机和控制器之间的关系</li>
+<li>终端用户</li>
+<li>DNS服务器</li>
+</ul>
+<p>SDN-controller将一个目的主机的真实IP地址映射到多个虚拟IP地址，然后更新每个SDN交换机的流表。被替换后的流表如下图所示（<strong>流表项似乎有些不规范</strong>）</p>
+<p><img src="/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20211203201014906.png" alt="image-20211203201014906"></p>
+</li>
+<li><p>交流协议</p>
+<p>分为两种方式</p>
+<ul>
+<li><p>通过域名交流</p>
+<p><img src="/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20211203202324191.png" alt="image-20211203202324191"></p>
+</li>
+<li><p>通过rIP交流</p>
+<p><img src="/2021/10/19/%E5%8B%92%E7%B4%A2%E8%BD%AF%E4%BB%B6%E9%98%B2%E5%BE%A1%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/image-20211203202348591.png" alt="image-20211203202348591"></p>
+</li>
+</ul>
 </li>
 </ul>
 
@@ -561,7 +606,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -603,7 +648,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
